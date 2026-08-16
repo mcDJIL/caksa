@@ -1,0 +1,10 @@
+{
+  "description": "Showcases a professional portfolio highlighting skills and expertise to attract clients and employers with a clean, user-friendly website design.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
