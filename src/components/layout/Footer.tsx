@@ -1,0 +1,3 @@
+import { Link } from "react-router";
+
+export default function Footer() { return <footer className="new-footer"><div className="footer-rail"><span>CAKSA / 07°16′S — 112°47′E</span><span>GALA AKASA WIRYA SATYA</span><span>© 2025</span></div><div className="footer-word"><span>BUILT FROM SURABAYA / FOR THE SKY</span><Link to="/">CAKSA<sup>▲</sup></Link></div><div className="footer-data"><div><small>OPEN CHANNEL</small><a href="mailto:partnershipcaksa@gmail.com">partnershipcaksa@gmail.com ↗</a><a href="https://instagram.com/caksaeepis">@caksaeepis ↗</a></div><div><small>BASE OF OPERATIONS</small><p>Politeknik Elektronika Negeri Surabaya<br />Jl. Raya ITS, Keputih, Surabaya, ID</p></div></div></footer>; }
