@@ -1,0 +1,15 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caksa-web
+    restart: always
+    ports:
+      - "127.0.0.1:4321:80"
+    networks:
+      - caksa-network
+
+networks:
+  caksa-network:
+    driver: bridge
