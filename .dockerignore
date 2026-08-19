@@ -2,7 +2,12 @@ node_modules
 dist
 .git
 .gitignore
+.agents
+.codex
+Skills
 .vscode
 README.md
+AGENTS.md
+CLAUDE.md
 *.log
 .env*

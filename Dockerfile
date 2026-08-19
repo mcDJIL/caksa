@@ -4,7 +4,7 @@ FROM node:22-alpine AS build
 WORKDIR /app
 
 # Enable pnpm via corepack
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.34.3 --activate
 
 # Copy lock files and package.json
 COPY package.json pnpm-lock.yaml ./
@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm build
 
 # Stage 2: Production Nginx environment
-FROM nginx:alpine
+FROM nginxinc/nginx-unprivileged:alpine
 
 # Copy custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
@@ -27,6 +27,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy build artifacts from build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router";
-import caksaLogo from "../../imports/Group_38112.png";
+import caksaLogo from "../../assets/images/logo.png";
 import Footer from "./Footer";
+import { useRouteSeo } from "../../lib/seo";
 
 export default function Shell() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [overLightSurface, setOverLightSurface] = useState(false);
   const location = useLocation();
+  useRouteSeo(location.pathname);
   useEffect(() => { setOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); }, [location.pathname]);
   useEffect(() => {
     const lightSurfaceSelectors = ".section-light, .manifesto, .about-manifesto, .leadership, .mission-index, .achievement-scoreboard, .numbers-section, .past-members";
