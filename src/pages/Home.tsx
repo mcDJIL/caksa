@@ -37,7 +37,12 @@ export default function Home() {
       <aside className="runway-index max-[639px]:!hidden"><b>02</b><p>Technical research, made collective.</p><span>↓</span></aside>
     </section>
     <section className="numbers-section">
-      <p className="side-label">THE RECORD IS NOT THE ENDPOINT</p><div className="number-row"><span>2023</span><strong>02<sup>ND</sup></strong><p>RUNNER-UP<br />TEKNOFEST<br />STARTUP</p><i>↘</i></div><div className="number-row"><span>2024</span><strong>11</strong><p>RANK IN<br />INTERNATIONAL<br />UAV</p><i>↘</i></div><div className="number-row"><span>2024</span><strong>08</strong><p>TOP 8<br />SAFMC<br />CAT D1</p><i>↘</i></div><Link className="numbers-link" to="/achievements">Read the verified record <b>↗</b></Link>
+      <p className="side-label">THE RECORD IS NOT THE ENDPOINT</p>
+      <div className="number-row"><span>2023</span><strong>02<sup>ND</sup></strong><p>RUNNER-UP<br />TEKNOFEST<br />STARTUP</p><i>↘</i></div>
+      <div className="number-row"><span>2024</span><strong>11</strong><p>RANK IN<br />INTERNATIONAL<br />UAV</p><i>↘</i></div>
+      <div className="number-row"><span>2024</span><strong>08</strong><p>TOP 8<br />SAFMC<br />CAT D1</p><i>↘</i></div>
+      <div className="number-row"><span>2025</span><strong>02<sup>ND</sup></strong><p>RUNNER-UP<br />SAFMC<br />CAT D1</p><i>↘</i></div>
+      <Link className="numbers-link" to="/achievements">Read the verified record <b>↗</b></Link>
     </section>
     <section className="mission-index">
       <div className="mission-intro"><span>[ 03 ] / AIRFRAME INDEX</span><h2>BUILT TO<br /><i>QUESTION</i><br />GRAVITY.</h2><p>Every airframe is a provisional answer to a bigger question waiting in the next flight.</p></div>

@@ -10,6 +10,7 @@ import umarImage from "../assets/images/wahana/umar.png";
 import galakasaImage from "../assets/images/wahana/galakasa.png";
 import kalamanggaImage from "../assets/images/wahana/kalamangga.png";
 import gundalaImage from "../assets/images/wahana/gundala.png";
+import amirudinImage from "../assets/images/wahana/amirudin.png";
 import djarumSponsor from "../assets/images/sponsor/djarum-foundation.png";
 import buayaSponsor from "../assets/images/sponsor/buaya-aerotech.png";
 import clevSponsor from "../assets/images/sponsor/clev-innovation-labs.png";
@@ -29,6 +30,7 @@ export const images = {
   galakasa: galakasaImage,
   kalamangga: kalamanggaImage,
   gundala: gundalaImage,
+  amirudin: amirudinImage,
   wing: gacorImage,
   partner: partnerImage,
   mission: missionImage,

@@ -8,9 +8,9 @@ export default function Research() {
   const cards = [
     { number: "01", name: "Gacor X1", type: "Fixed wing / Tractor configuration", note: "International UAV Competition · TEKNOFEST 2023", image: images.gacor, secondaryImage: null, status: "REALIZED", year: "2023" },
     { number: "02", name: "Galakasa", type: "3rd Cakrawala Skala Aerial Vehicle", note: "Long-range aerial research platform", image: images.galakasa, secondaryImage: null, status: "REALIZED", year: "2023" },
-    { number: "03", name: "Anak Lanang / Kalamangga", type: "Experimental drone / Remote-control pair", note: "Kalamangga is the remote-control unit paired with Anak Lanang.", image: images.anakLanang, secondaryImage: images.kalamangga, status: "REALIZED", year: "2024" },
-    { number: "04", name: "Umar / Gundala", type: "Quadcopter / Remote-control pair", note: "Gundala is the remote-control unit paired with Umar.", image: images.umar, secondaryImage: images.gundala, status: "REALIZED", year: "2025" },
-    { number: "05", name: "Coming Soon", type: "Quadcopter / Remote-control pair", note: "Coming soon.", image: null, secondaryImage: null, status: "IN DEVELOPMENT", year: "2026" },
+    { number: "03", name: "Anak Lanang / Kalamangga", type: "Experimental drone / Wearable-control pair", note: "Kalamangga is the wearable-control unit paired with Anak Lanang.", image: images.anakLanang, secondaryImage: images.kalamangga, status: "REALIZED", year: "2024" },
+    { number: "04", name: "Umar / Gundala", type: "Quadcopter / Wearable-control pair", note: "Gundala is the wearable-control unit paired with Umar.", image: images.umar, secondaryImage: images.gundala, status: "REALIZED", year: "2025" },
+    { number: "05", name: "Amirudin", type: "Quadcopter / Remote-control pair", note: "Amirudin is the Quadcopter UAV controlled by remote.", image: images.amirudin, secondaryImage: null, status: "REALIZED", year: "2026" },
   ];
   const [selectedVehicle, setSelectedVehicle] = useState<(typeof cards)[number] | null>(null);
   useEffect(() => {
