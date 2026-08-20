@@ -20,7 +20,6 @@ import amirImage from "../assets/images/teams/technical/MEKANIK AMIR 2.png";
 import samImage from "../assets/images/teams/technical/MEKANIK SAM 2.png";
 import arsoImage from "../assets/images/teams/technical/MEKANIK ARSO 2.png";
 import erikImage from "../assets/images/teams/technical/PROGRAM ERIK 2.png";
-import kenImage from "../assets/images/teams/technical/PROGRAM KEN 2.png";
 import vitoImage from "../assets/images/teams/technical/PROGRAM VITO 2.png";
 import reginaImage from "../assets/images/teams/nontechnical/PM REGINA 2.png";
 import awiImage from "../assets/images/teams/nontechnical/BRANDING AWI 2.png";
@@ -128,12 +127,6 @@ export const technical: TeamMember[] = [
     name: 'Moh. Erik Putra',
     position: 'Programmer',
     major: 'Telecommunication Engineering',
-  },
-  {
-    img: kenImage,
-    name: 'Ken Arfel Ersyad',
-    position: 'Programmer',
-    major: 'Electronics Engineering',
   },
   {
     img: vitoImage,
