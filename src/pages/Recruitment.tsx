@@ -6,10 +6,29 @@ import { images } from "../data/images"
 
 import { Eyebrow } from "../components/ui/editorial"
 
+const studyPrograms = [
+  ["Teknik Elektronika", "https://www.pens.ac.id/te/sarjana-terapan-teknik-elektronika/"],
+  ["Teknik Telekomunikasi", "https://www.pens.ac.id/te/sarjana-terapan-teknik-telekomunikasi/"],
+  ["Teknik Elektro Industri", "https://www.pens.ac.id/te/sarjana-terapan-teknik-elektro-industri/"],
+  ["Teknologi Rekayasa Internet", "https://www.pens.ac.id/te/sarjana-terapan-teknologi-rekayasa-internet/"],
+  ["Teknologi Rekayasa Keselamatan K3", "https://www.pens.ac.id/te/sarjana-terapan-teknologi-rekayasa-keselamatan-k3/"],
+  ["Teknik Informatika", "https://www.pens.ac.id/tik/sarjana-terapan-teknik-informatika/"],
+  ["Teknik Komputer", "https://www.pens.ac.id/tik/sarjana-terapan-teknik-komputer/"],
+  ["Sains Data Terapan", "https://www.pens.ac.id/tik/sarjana-terapan-sains-data-terapan/"],
+  ["Teknik Mekatronika", "https://www.pens.ac.id/tme/sarjana-terapan-teknik-mekatronika/"],
+  ["Sistem Pembangkit Energi", "https://www.pens.ac.id/tme/sarjana-terapan-sistem-pembangkit-energi/"],
+  ["Teknologi Rekayasa Perancangan Manufaktur", "https://www.pens.ac.id/tme/sarjana-terapan-teknologi-rekayasa-perancangan-manufaktur/"],
+  ["Teknologi Game", "https://www.pens.ac.id/tmk/sarjana-terapan-teknologi-game/"],
+  ["Teknologi Rekayasa Multimedia", "https://www.pens.ac.id/tmk/sarjana-terapan-teknologi-rekayasa-multimedia/"],
+  ["Bisnis Digital", "https://www.pens.ac.id/tmk/sarjana-terapan-bisnis-digital/"],
+] as const;
+
 export default function Recruitment() {
   const [mode, setMode] = useState<"APPLY" | "TRACK">("APPLY")
 
   const [submitted, setSubmitted] = useState(false)
+
+  const [applicationStep, setApplicationStep] = useState<1 | 2>(1)
 
   const [interestedWing, setInterestedWing] = useState("")
 
@@ -143,37 +162,76 @@ export default function Recruitment() {
                 className="recruitment-form"
                 onSubmit={(event) => {
                   event.preventDefault()
+                  if (applicationStep === 1) {
+                    setApplicationStep(2)
+                    return
+                  }
                   setSubmitted(true)
                 }}
               >
                 <div className="form-header">
-                  <span>APPLICATION FORM / STEP 01 OF 01</span>
+                  <span>APPLICATION FORM / STEP 0{applicationStep} OF 02</span>
                 </div>
+                {applicationStep === 1 ? (
+                  <div className="form-grid">
+                    <label>
+                      EMAIL ADDRESS
+                      <input required type="email" placeholder="name@email.com" />
+                    </label>
+                    <label>
+                      FULL NAME
+                      <input required placeholder="Your full name" />
+                    </label>
+                    <label>
+                      NRP
+                      <input required inputMode="numeric" placeholder="Your student number" />
+                    </label>
+                    <label>
+                      DEGREE LEVEL
+                      <select required defaultValue="">
+                        <option value="" disabled>Select degree level</option>
+                        <option>D3</option>
+                        <option>D4</option>
+                        <option>LJ</option>
+                        <option>S2</option>
+                      </select>
+                    </label>
+                    <label>
+                      STUDY PROGRAM
+                      <select required defaultValue="">
+                        <option value="" disabled>Select study program</option>
+                        {studyPrograms.map(([name, url]) => (
+                          <option key={name} value={url}>{name}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      BATCH
+                      <select required defaultValue="">
+                        <option value="" disabled>Select batch</option>
+                        <option>2024</option>
+                        <option>2025</option>
+                        <option>2026</option>
+                      </select>
+                    </label>
+                    <label>
+                      INSTAGRAM
+                      <input required placeholder="@yourusername" />
+                    </label>
+                    <label>
+                      WHERE DID YOU KNOW ABOUT THIS OPEN RECRUITMENT?
+                      <select required defaultValue="">
+                        <option value="" disabled>Select one</option>
+                        <option>Instagram</option>
+                        <option>Campus information</option>
+                        <option>Friend or CAKSA member</option>
+                        <option>WhatsApp</option>
+                        <option>Other</option>
+                      </select>
+                    </label>
+                  </div>
+                ) : (
                 <div className="form-grid">
-                  <label>
-                    FULL NAME
-                    <input required placeholder="Your full name" />
-                  </label>
-                  <label>
-                    EMAIL ADDRESS
-                    <input required type="email" placeholder="name@email.com" />
-                  </label>
-                  <label>
-                    STUDY PROGRAM
-                    <input required placeholder="Your major / programme" />
-                  </label>
-                  <label>
-                    STUDENT YEAR
-                    <select required defaultValue="">
-                      <option value="" disabled>
-                        Select year
-                      </option>
-                      <option>First year</option>
-                      <option>Second year</option>
-                      <option>Third year</option>
-                      <option>Fourth year</option>
-                    </select>
-                  </label>
                   <label>
                     INTERESTED WING
                     <select
@@ -320,9 +378,13 @@ export default function Recruitment() {
                     />
                   </label>
                 </div>
-                <button className="submit-application" type="submit">
-                  Submit application <b>↗</b>
-                </button>
+                )}
+                <div className="recruitment-form-actions">
+                  {applicationStep === 2 && <button className="form-back" type="button" onClick={() => setApplicationStep(1)}>↙ Back</button>}
+                  <button className="submit-application" type="submit">
+                    {applicationStep === 1 ? "Next step" : "Submit application"} <b>↗</b>
+                  </button>
+                </div>
               </form>
             )}
           </div>
