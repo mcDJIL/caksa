@@ -4,12 +4,13 @@ import { Eyebrow, EyebrowBlack } from "../components/ui/editorial";
 
 export default function Achievements() {
   const events = [
-    ["2023", "TEKNOFEST International Startup Competition", "1st Runner-up", "The only Indonesian representative to earn runner-up recognition."],
+    ["2023", "TEKNOFEST International Startup Competition", "2nd Runner-up", "The only Indonesian representative to earn runner-up recognition."],
     ["2023", "TEKNOFEST International UAV Competition", "Finalist", "Presented CAKSA research in person in Türkiye."],
-    ["2024", "TEKNOFEST International UAV Competition", "Rank 11", "Placed among an international field of UAV competitors."],
+    ["2024", "TEKNOFEST International UAV Competition", "Finalist", "Placed among an international field of UAV competitors."],
     ["2024", "SAFMC · CAT D1", "Top 8", "D1 Man Machine category · representing Indonesia."],
     ["2025", "SAFMC · CAT D1", "1st Runner-up", "D1 Man Machine category · representing Indonesia."],
     ["2026", "SAFMC · CAT D1", "Judges Commendation", "D1 Man Machine category · representing Indonesia."],
+    ["2026", "SAFMC · CAT C3", "2nd Runner-up", "C3 First Person View Flight-Advanced category · representing Indonesia."],
   ];
   return <PageHero label="Achievements" title={<>THE RECORD<br /><em>IS REAL.</em></>} description="A verified competition record built through team work and experiments that never end after a single flight." image={images.award}>
     <section className="achievement-scoreboard"><div className="scoreboard-label text-black"><EyebrowBlack>Verified performance / 2023—2024</EyebrowBlack><p>Every result in this archive comes from an official competition. Our next programme is presented separately, as research still in motion.</p></div><div className="scoreboard-numbers"><article><span>01</span><strong>02<sup>ND</sup></strong><p>RUNNER-UP<br />TEKNOFEST</p></article><article><span>02</span><strong>11</strong><p>INTERNATIONAL<br />RANK</p></article><article><span>03</span><strong>02<sup>ND</sup></strong><p>RUNNER-UP<br />SAFMC</p></article></div></section>
