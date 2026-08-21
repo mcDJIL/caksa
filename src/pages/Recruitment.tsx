@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, type FormEvent } from "react"
 
 import PageHero from "../components/sections/PageHero"
 
@@ -7,23 +7,27 @@ import { images } from "../data/images"
 import { Eyebrow } from "../components/ui/editorial"
 
 const studyPrograms = [
-  ["Teknik Elektronika", "https://www.pens.ac.id/te/sarjana-terapan-teknik-elektronika/"],
-  ["Teknik Telekomunikasi", "https://www.pens.ac.id/te/sarjana-terapan-teknik-telekomunikasi/"],
-  ["Teknik Elektro Industri", "https://www.pens.ac.id/te/sarjana-terapan-teknik-elektro-industri/"],
-  ["Teknologi Rekayasa Internet", "https://www.pens.ac.id/te/sarjana-terapan-teknologi-rekayasa-internet/"],
-  ["Teknologi Rekayasa Keselamatan K3", "https://www.pens.ac.id/te/sarjana-terapan-teknologi-rekayasa-keselamatan-k3/"],
-  ["Teknik Informatika", "https://www.pens.ac.id/tik/sarjana-terapan-teknik-informatika/"],
-  ["Teknik Komputer", "https://www.pens.ac.id/tik/sarjana-terapan-teknik-komputer/"],
-  ["Sains Data Terapan", "https://www.pens.ac.id/tik/sarjana-terapan-sains-data-terapan/"],
-  ["Teknik Mekatronika", "https://www.pens.ac.id/tme/sarjana-terapan-teknik-mekatronika/"],
-  ["Sistem Pembangkit Energi", "https://www.pens.ac.id/tme/sarjana-terapan-sistem-pembangkit-energi/"],
-  ["Teknologi Rekayasa Perancangan Manufaktur", "https://www.pens.ac.id/tme/sarjana-terapan-teknologi-rekayasa-perancangan-manufaktur/"],
-  ["Teknologi Game", "https://www.pens.ac.id/tmk/sarjana-terapan-teknologi-game/"],
-  ["Teknologi Rekayasa Multimedia", "https://www.pens.ac.id/tmk/sarjana-terapan-teknologi-rekayasa-multimedia/"],
-  ["Bisnis Digital", "https://www.pens.ac.id/tmk/sarjana-terapan-bisnis-digital/"],
+  ["Teknik Elektronika", "teknik-elektronika"],
+  ["Teknik Telekomunikasi", "teknik-telekomunikasi"],
+  ["Teknik Elektro Industri", "teknik-elektro-industri"],
+  ["Teknologi Rekayasa Internet", "teknologi-rekayasa-internet"],
+  ["Teknologi Rekayasa Keselamatan K3", "teknologi-rekayasa-keselamatan-k3"],
+  ["Teknik Informatika", "teknik-informatika"],
+  ["Teknik Komputer", "teknik-komputer"],
+  ["Sains Data Terapan", "sains-data-terapan"],
+  ["Teknik Mekatronika", "teknik-mekatronika"],
+  ["Sistem Pembangkit Energi", "sistem-pembangkit-energi"],
+  ["Teknologi Rekayasa Perancangan Manufaktur", "teknologi-rekayasa-perancangan-manufaktur"],
+  ["Teknologi Game", "teknologi-game"],
+  ["Teknologi Rekayasa Multimedia", "teknologi-rekayasa-multimedia"],
+  ["Bisnis Digital", "bisnis-digital"],
 ] as const;
 
+const recruitmentDraftKey = "caksa-recruitment-draft"
+
 export default function Recruitment() {
+  const applicationFormRef = useRef<HTMLFormElement>(null)
+
   const [mode, setMode] = useState<"APPLY" | "TRACK">("APPLY")
 
   const [submitted, setSubmitted] = useState(false)
@@ -33,6 +37,62 @@ export default function Recruitment() {
   const [interestedWing, setInterestedWing] = useState("")
 
   const [division, setDivision] = useState("")
+
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(recruitmentDraftKey)
+
+    if (!savedDraft) return
+
+    try {
+      const draft = JSON.parse(savedDraft) as Record<string, string>
+
+      if (draft.applicationStep === "2") setApplicationStep(2)
+      setInterestedWing(draft.interestedWing ?? "")
+      setDivision(draft.division ?? "")
+
+      const form = applicationFormRef.current
+      if (!form) return
+
+      Object.entries(draft).forEach(([name, value]) => {
+        const field = form.elements.namedItem(name)
+        if (field instanceof HTMLInputElement && field.type !== "file") {
+          field.value = value
+        } else if (field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement) {
+          field.value = value
+        }
+      })
+    } catch {
+      localStorage.removeItem(recruitmentDraftKey)
+    }
+  }, [applicationStep])
+
+  const saveApplicationDraft = (step = applicationStep) => {
+    const form = applicationFormRef.current
+    if (!form) return
+
+    let draft: Record<string, string> = {}
+
+    const savedDraft = localStorage.getItem(recruitmentDraftKey)
+    if (savedDraft) {
+      try {
+        draft = JSON.parse(savedDraft) as Record<string, string>
+      } catch {
+        localStorage.removeItem(recruitmentDraftKey)
+      }
+    }
+
+    Object.assign(draft, {
+      applicationStep: String(step),
+      interestedWing,
+      division,
+    })
+
+    new FormData(form).forEach((value, name) => {
+      if (typeof value === "string") draft[name] = value
+    })
+
+    localStorage.setItem(recruitmentDraftKey, JSON.stringify(draft))
+  }
 
 
   const [trackingCode, setTrackingCode] = useState("")
@@ -44,14 +104,14 @@ export default function Recruitment() {
 
   const divisions =
     interestedWing === "Technical"
-      ? ["Electrical", "Mechanical", "Programming"]
+      ? ["Electrical", "Mechanical", "Programming", "Research & Development"]
       : interestedWing === "Non-Technical"
         ? [
-            "Administration",
-            "Branding",
-            "Public Relations",
-            "Project Management",
-          ]
+          "Administration",
+          "Branding",
+          "Public Relations",
+          "Project Management",
+        ]
         : []
 
   const isTechnicalDivision = interestedWing === "Technical" && division !== ""
@@ -122,9 +182,8 @@ export default function Recruitment() {
           </button>
           <button
             type="button"
-            className={`${
-              mode === "TRACK" ? "active" : ""
-            } max-[380px]:!border-l-0 max-[380px]:!border-t max-[380px]:!border-white/25 max-[380px]:!px-0`}
+            className={`${mode === "TRACK" ? "active" : ""
+              } max-[380px]:!border-l-0 max-[380px]:!border-t max-[380px]:!border-white/25 max-[380px]:!px-0`}
             onClick={() => setMode("TRACK")}
           >
             02 / TRACK APPLICATION
@@ -160,12 +219,16 @@ export default function Recruitment() {
             ) : (
               <form
                 className="recruitment-form"
+                ref={applicationFormRef}
+                onChange={() => requestAnimationFrame(() => saveApplicationDraft())}
                 onSubmit={(event) => {
                   event.preventDefault()
                   if (applicationStep === 1) {
+                    saveApplicationDraft(2)
                     setApplicationStep(2)
                     return
                   }
+                  localStorage.removeItem(recruitmentDraftKey)
                   setSubmitted(true)
                 }}
               >
@@ -176,19 +239,19 @@ export default function Recruitment() {
                   <div className="form-grid">
                     <label>
                       EMAIL ADDRESS
-                      <input required type="email" placeholder="name@email.com" />
+                      <input name="email" required type="email" placeholder="name@email.com" />
                     </label>
                     <label>
                       FULL NAME
-                      <input required placeholder="Your full name" />
+                      <input name="fullName" required placeholder="Your full name" />
                     </label>
                     <label>
                       NRP
-                      <input required inputMode="numeric" placeholder="Your student number" />
+                      <input name="nrp" required inputMode="numeric" placeholder="Your student number" />
                     </label>
                     <label>
                       DEGREE LEVEL
-                      <select required defaultValue="">
+                      <select name="degreeLevel" required defaultValue="">
                         <option value="" disabled>Select degree level</option>
                         <option>D3</option>
                         <option>D4</option>
@@ -198,7 +261,7 @@ export default function Recruitment() {
                     </label>
                     <label>
                       STUDY PROGRAM
-                      <select required defaultValue="">
+                      <select name="studyProgram" required defaultValue="">
                         <option value="" disabled>Select study program</option>
                         {studyPrograms.map(([name, url]) => (
                           <option key={name} value={url}>{name}</option>
@@ -207,7 +270,7 @@ export default function Recruitment() {
                     </label>
                     <label>
                       BATCH
-                      <select required defaultValue="">
+                      <select name="batch" required defaultValue="">
                         <option value="" disabled>Select batch</option>
                         <option>2024</option>
                         <option>2025</option>
@@ -216,11 +279,11 @@ export default function Recruitment() {
                     </label>
                     <label>
                       INSTAGRAM
-                      <input required placeholder="@yourusername" />
+                      <input name="instagram" required placeholder="@yourusername" />
                     </label>
                     <label>
                       WHERE DID YOU KNOW ABOUT THIS OPEN RECRUITMENT?
-                      <select required defaultValue="">
+                      <select name="referralSource" required defaultValue="">
                         <option value="" disabled>Select one</option>
                         <option>Instagram</option>
                         <option>Campus information</option>
@@ -231,156 +294,172 @@ export default function Recruitment() {
                     </label>
                   </div>
                 ) : (
-                <div className="form-grid">
-                  <label>
-                    INTERESTED WING
-                    <select
-                      required
-                      value={interestedWing}
-                      onChange={(event) => {
-                        setInterestedWing(event.target.value)
-                        setDivision("")
-                      }}
-                    >
-                      <option value="" disabled>
-                        Select a wing
-                      </option>
-                      <option>Technical</option>
-                      <option>Non-Technical</option>
-                    </select>
-                  </label>
-                  <label>
-                    DIVISION OF INTEREST
-                    <select
-                      required
-                      value={division}
-                      disabled={!interestedWing}
-                      onChange={(event) => {
-                        setDivision(event.target.value)
-                      }}
-                    >
-                      <option value="" disabled>
-                        {interestedWing
-                          ? "Select division"
-                          : "Select a wing first"}
-                      </option>
-                      {divisions.map((item) => (
-                        <option key={item}>{item}</option>
-                      ))}
-                    </select>
-                  </label>
-                  {isTechnicalDivision && (
-                    <>
-                      <label>
-                        CV / PDF
-                        <input
-                          required
-                          type="file"
-                          accept="application/pdf,.pdf"
-                        />
-                      </label>
-                      <label>
-                        ESSAY / PDF
-                        <input
-                          required
-                          type="file"
-                          accept="application/pdf,.pdf"
-                        />
-                      </label>
-                      <label className="full-field">
-                        PORTFOLIO / GOOGLE DRIVE LINK
-                        <input
-                          required
-                          type="url"
-                          pattern="https://(drive|docs)\\.google\\.com/.*"
-                          placeholder="https://drive.google.com/..."
-                        />
-                      </label>
-                    </>
-                  )}
-                  {isNonTechnicalDivision && (
-                    <>
-                      <label>
-                        CURRICULUM VITAE / PDF
-                        <input
-                          required
-                          type="file"
-                          accept="application/pdf,.pdf"
-                        />
-                      </label>
-                      <label>
-                        MOTIVATION LETTER / PDF
-                        <input
-                          required
-                          type="file"
-                          accept="application/pdf,.pdf"
-                        />
-                      </label>
-                      {division === "Administration" && (
-                        <>
-                          <label>
-                            ADMINISTRATION SPECIAL TASK / XLSX
-                            <input
-                              required
-                              type="file"
-                              accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            />
-                          </label>
-                          <label>
-                            ADMINISTRATION SPECIAL TASK / PDF
-                            <input
-                              required
-                              type="file"
-                              accept="application/pdf,.pdf"
-                            />
-                          </label>
-                          <label className="full-field">
-                            GOOGLE SHEETS VIEWER LINK{" "}
-                            <input
-                              type="url"
-                              pattern="https://docs\\.google\\.com/spreadsheets/.*"
-                              placeholder="https://docs.google.com/spreadsheets/..."
-                            />
-                          </label>
-                        </>
-                      )}
-                      {division === "Branding" && (
-                        <>
-                          <label className="full-field">
-                            MOTION GRAPHIC VIDEO (OPTIONAL)
-                            <input type="file" accept="video/*" />
-                          </label>
-                          <label className="full-field">
-                            DESIGN GRAPHIC / A3 (OPTIONAL)
-                            <input
-                              type="file"
-                              accept="image/*,.pdf,application/pdf"
-                            />
-                          </label>
-                        </>
-                      )}
-                      <label className="full-field">
-                        PORTFOLIO / GOOGLE DRIVE LINK (OPTIONAL)
-                        <input
-                          type="url"
-                          pattern="https://(drive|docs)\\.google\\.com/.*"
-                          placeholder="https://drive.google.com/..."
-                        />
-                      </label>
-                    </>
-                  )}
-                  <label className="full-field">
-                    WHY CAKSA?
-                    <textarea
-                      required
-                      rows={4}
-                      placeholder="Tell us where you want to contribute..."
-                    />
-                  </label>
-                </div>
+                  <div className="form-grid">
+                    <label>
+                      INTERESTED WING
+                      <select
+                        name="interestedWing"
+                        required
+                        value={interestedWing}
+                        onChange={(event) => {
+                          setInterestedWing(event.target.value)
+                          setDivision("")
+                        }}
+                      >
+                        <option value="" disabled>
+                          Select a wing
+                        </option>
+                        <option>Technical</option>
+                        <option>Non-Technical</option>
+                      </select>
+                    </label>
+                    <label>
+                      DIVISION OF INTEREST
+                      <select
+                        name="division"
+                        required
+                        value={division}
+                        disabled={!interestedWing}
+                        onChange={(event) => {
+                          setDivision(event.target.value)
+                        }}
+                      >
+                        <option value="" disabled>
+                          {interestedWing
+                            ? "Select division"
+                            : "Select a wing first"}
+                        </option>
+                        {divisions.map((item) => (
+                          <option key={item}>{item}</option>
+                        ))}
+                      </select>
+                    </label>
+                    {isTechnicalDivision && (
+                      <>
+                        <label>
+                          CV / PDF
+                          <input
+                            name="technicalCv"
+                            required
+                            type="file"
+                            accept="application/pdf,.pdf"
+                          />
+                        </label>
+                        <label>
+                          ESSAY / PDF
+                          <input
+                            name="technicalEssay"
+                            required
+                            type="file"
+                            accept="application/pdf,.pdf"
+                          />
+                        </label>
+                        <label className="full-field">
+                          PORTFOLIO / GOOGLE DRIVE LINK
+                          <input
+                            name="technicalPortfolio"
+                            required
+                            type="url"
+                            pattern="https://(drive|docs)\\.google\\.com/.*"
+                            placeholder="https://drive.google.com/..."
+                          />
+                        </label>
+                      </>
+                    )}
+                    {isNonTechnicalDivision && (
+                      <>
+                        <label>
+                          CURRICULUM VITAE / PDF
+                          <input
+                            name="nonTechnicalCv"
+                            required
+                            type="file"
+                            accept="application/pdf,.pdf"
+                          />
+                        </label>
+                        <label>
+                          MOTIVATION LETTER / PDF
+                          <input
+                            name="motivationLetter"
+                            required
+                            type="file"
+                            accept="application/pdf,.pdf"
+                          />
+                        </label>
+                        {division === "Administration" && (
+                          <>
+                            <label>
+                              ADMINISTRATION SPECIAL TASK / XLSX
+                              <input
+                                name="administrationTaskXlsx"
+                                required
+                                type="file"
+                                accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                              />
+                            </label>
+                            <label>
+                              ADMINISTRATION SPECIAL TASK / PDF
+                              <input
+                                name="administrationTaskPdf"
+                                required
+                                type="file"
+                                accept="application/pdf,.pdf"
+                              />
+                            </label>
+                            <label className="full-field">
+                              GOOGLE SHEETS VIEWER LINK{" "}
+                              <input
+                                name="administrationSheetsLink"
+                                type="url"
+                                pattern="https://docs\\.google\\.com/spreadsheets/.*"
+                                placeholder="https://docs.google.com/spreadsheets/..."
+                              />
+                            </label>
+                          </>
+                        )}
+                        {division === "Branding" && (
+                          <>
+                            <label className="full-field">
+                              MOTION GRAPHIC VIDEO (OPTIONAL)
+                              <input type="file" accept="video/*" />
+                            </label>
+                            <label className="full-field">
+                              DESIGN GRAPHIC / A3 (OPTIONAL)
+                              <input
+                                name="brandingGraphic"
+                                type="file"
+                                accept="image/*,.pdf,application/pdf"
+                              />
+                            </label>
+                          </>
+                        )}
+                        <label className="full-field">
+                          PORTFOLIO / GOOGLE DRIVE LINK (OPTIONAL)
+                          <input
+                            name="nonTechnicalPortfolio"
+                            type="url"
+                            pattern="https://(drive|docs)\\.google\\.com/.*"
+                            placeholder="https://drive.google.com/..."
+                          />
+                        </label>
+                      </>
+                    )}
+                    <label className="full-field">
+                      WHY CAKSA?
+                      <textarea
+                        name="whyCaksa"
+                        required
+                        rows={4}
+                        placeholder="Tell us where you want to contribute..."
+                      />
+                    </label>
+                  </div>
                 )}
                 <div className="recruitment-form-actions">
-                  {applicationStep === 2 && <button className="form-back" type="button" onClick={() => setApplicationStep(1)}>↙ Back</button>}
+                  {applicationStep === 2 && <button className="form-back" type="button" onClick={() => {
+                    saveApplicationDraft(1)
+                    setApplicationStep(1)
+                  }}>↙ Back</button>}
                   <button className="submit-application" type="submit">
                     {applicationStep === 1 ? "Next step" : "Submit application"} <b>↗</b>
                   </button>
@@ -414,11 +493,10 @@ export default function Recruitment() {
                 <button type="submit">CHECK ↗</button>
               </form>
               <div
-                className={`status-board ${
-                  trackingResult
+                className={`status-board ${trackingResult
                     ? `result-${trackingResult.toLowerCase().split(" / ").join("-").split(" ").join("-")}`
                     : "standby"
-                }`}
+                  }`}
               >
                 {trackingResult === "NOT FOUND" ? (
                   <>
@@ -528,8 +606,8 @@ export default function Recruitment() {
                       <article
                         className={
                           trackingResult === "ADMINISTRATION" ||
-                          trackingResult === "INTERVIEW" ||
-                          trackingResult === "MEMBER"
+                            trackingResult === "INTERVIEW" ||
+                            trackingResult === "MEMBER"
                             ? "done"
                             : ""
                         }
@@ -541,7 +619,7 @@ export default function Recruitment() {
                       <article
                         className={
                           trackingResult === "INTERVIEW" ||
-                          trackingResult === "MEMBER"
+                            trackingResult === "MEMBER"
                             ? "done"
                             : ""
                         }
