@@ -8,6 +8,8 @@ services:
     ports:
       - "127.0.0.1:4321:8080"
     read_only: true
+    env_file:
+    - .env
     tmpfs:
       - /tmp
       - /var/cache/nginx
