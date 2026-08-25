@@ -15,6 +15,10 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
+# Pass build args to Vite
+ARG VITE_RECRUITMENT_API_URL
+ARG VITE_SITE_URL
+
 # Build Vite SPA
 RUN pnpm build
 
