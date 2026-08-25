@@ -24,6 +24,20 @@ const studyPrograms = [
 ] as const;
 
 const recruitmentDraftKey = "caksa-recruitment-draft"
+const recruitmentApiBase = (import.meta.env.VITE_RECRUITMENT_API_URL || "http://localhost:3000/api").replace(/\/$/, "")
+const stepOneFieldNames = ["email", "fullName", "nrp", "degreeLevel", "studyProgram", "batch", "instagram", "referralSource"] as const
+
+const readRecruitmentDraft = (): Record<string, string> => {
+  const savedDraft = localStorage.getItem(recruitmentDraftKey)
+  if (!savedDraft) return {}
+
+  try {
+    return JSON.parse(savedDraft) as Record<string, string>
+  } catch {
+    localStorage.removeItem(recruitmentDraftKey)
+    return {}
+  }
+}
 
 export default function Recruitment() {
   const applicationFormRef = useRef<HTMLFormElement>(null)
@@ -32,6 +46,12 @@ export default function Recruitment() {
 
   const [submitted, setSubmitted] = useState(false)
 
+  const [applicationCode, setApplicationCode] = useState("")
+
+  const [submissionError, setSubmissionError] = useState("")
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [applicationStep, setApplicationStep] = useState<1 | 2>(1)
 
   const [interestedWing, setInterestedWing] = useState("")
@@ -39,31 +59,24 @@ export default function Recruitment() {
   const [division, setDivision] = useState("")
 
   useEffect(() => {
-    const savedDraft = localStorage.getItem(recruitmentDraftKey)
+    const draft = readRecruitmentDraft()
+    if (Object.keys(draft).length === 0) return
 
-    if (!savedDraft) return
+    if (draft.applicationStep === "2") setApplicationStep(2)
+    setInterestedWing(draft.interestedWing ?? "")
+    setDivision(draft.division ?? "")
 
-    try {
-      const draft = JSON.parse(savedDraft) as Record<string, string>
+    const form = applicationFormRef.current
+    if (!form) return
 
-      if (draft.applicationStep === "2") setApplicationStep(2)
-      setInterestedWing(draft.interestedWing ?? "")
-      setDivision(draft.division ?? "")
-
-      const form = applicationFormRef.current
-      if (!form) return
-
-      Object.entries(draft).forEach(([name, value]) => {
-        const field = form.elements.namedItem(name)
-        if (field instanceof HTMLInputElement && field.type !== "file") {
-          field.value = value
-        } else if (field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement) {
-          field.value = value
-        }
-      })
-    } catch {
-      localStorage.removeItem(recruitmentDraftKey)
-    }
+    Object.entries(draft).forEach(([name, value]) => {
+      const field = form.elements.namedItem(name)
+      if (field instanceof HTMLInputElement && field.type !== "file") {
+        field.value = value
+      } else if (field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement) {
+        field.value = value
+      }
+    })
   }, [applicationStep])
 
   const saveApplicationDraft = (step = applicationStep) => {
@@ -114,29 +127,37 @@ export default function Recruitment() {
         ]
         : []
 
-  const isTechnicalDivision = interestedWing === "Technical" && division !== ""
+  const requiresTechnicalDocuments = interestedWing === "Technical" && division !== ""
 
-  const isNonTechnicalDivision =
-    interestedWing === "Non-Technical" && division !== ""
+  const requiresNonTechnicalDocuments = interestedWing === "Non-Technical" && division !== ""
 
-  const checkStatus = (event: FormEvent<HTMLFormElement>) => {
+  const checkStatus = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const normalized = trackingCode.trim().toUpperCase()
+    if (!normalized) {
+      setTrackingResult("NOT FOUND")
+      return
+    }
 
-    setTrackingResult(
-      normalized === "CAKSA-26-014"
-        ? "INTERVIEW"
-        : normalized === "CAKSA-26-021"
-          ? "MEMBER"
-          : normalized === "CAKSA-26-006"
-            ? "ADMINISTRATION"
-            : normalized === "CAKSA-26-007"
-              ? "NOT SELECTED / ADMINISTRATION"
-              : normalized === "CAKSA-26-015"
-                ? "NOT SELECTED / INTERVIEW"
-                : "NOT FOUND",
-    )
+    try {
+      const response = await fetch(`${recruitmentApiBase}/applications/${encodeURIComponent(normalized)}`)
+      if (!response.ok) {
+        setTrackingResult("NOT FOUND")
+        return
+      }
+
+      const result = (await response.json()) as { status: string }
+      setTrackingResult(
+        result.status === "NOT_SELECTED_ADMINISTRATION"
+          ? "NOT SELECTED / ADMINISTRATION"
+          : result.status === "NOT_SELECTED_INTERVIEW"
+            ? "NOT SELECTED / INTERVIEW"
+            : result.status as "PENDING" | "ADMINISTRATION" | "INTERVIEW" | "MEMBER",
+      )
+    } catch {
+      setTrackingResult("NOT FOUND")
+    }
   }
 
   return (
@@ -199,17 +220,16 @@ export default function Recruitment() {
                   <br />
                   CODE IS
                   <br />
-                  <em>CAKSA-26-031</em>
+                  <em>{applicationCode}</em>
                 </h3>
                 <p>
-                  This is a UI-only confirmation. Save the code to preview the
-                  tracking journey. Your submitted information is not stored.
+                  Save this code to check your selection status later.
                 </p>
                 <button
                   type="button"
                   onClick={() => {
                     setMode("TRACK")
-                    setTrackingCode("CAKSA-26-031")
+                    setTrackingCode(applicationCode)
                     setTrackingResult("PENDING")
                   }}
                 >
@@ -221,15 +241,45 @@ export default function Recruitment() {
                 className="recruitment-form"
                 ref={applicationFormRef}
                 onChange={() => requestAnimationFrame(() => saveApplicationDraft())}
-                onSubmit={(event) => {
+                onSubmit={async (event) => {
                   event.preventDefault()
                   if (applicationStep === 1) {
                     saveApplicationDraft(2)
                     setApplicationStep(2)
                     return
                   }
-                  localStorage.removeItem(recruitmentDraftKey)
-                  setSubmitted(true)
+                  setSubmissionError("")
+                  setIsSubmitting(true)
+                  try {
+                    const submissionFormData = new FormData(event.currentTarget)
+                    const draft = readRecruitmentDraft()
+
+                    stepOneFieldNames.forEach((fieldName) => {
+                      const currentValue = submissionFormData.get(fieldName)
+                      const draftValue = draft[fieldName]
+
+                      if (typeof currentValue === "string" && currentValue.trim() !== "") return
+                      if (typeof draftValue === "string" && draftValue.trim() !== "") {
+                        submissionFormData.set(fieldName, draftValue)
+                      }
+                    })
+
+                    const response = await fetch(`${recruitmentApiBase}/applications`, {
+                      method: "POST",
+                      body: submissionFormData,
+                    })
+                    const result = (await response.json()) as { applicationCode?: string; error?: string }
+                    if (!response.ok || !result.applicationCode) {
+                      throw new Error(result.error || "Unable to submit application")
+                    }
+                    localStorage.removeItem(recruitmentDraftKey)
+                    setApplicationCode(result.applicationCode)
+                    setSubmitted(true)
+                  } catch (error) {
+                    setSubmissionError(error instanceof Error ? error.message : "Unable to submit application")
+                  } finally {
+                    setIsSubmitting(false)
+                  }
                 }}
               >
                 <div className="form-header">
@@ -334,12 +384,12 @@ export default function Recruitment() {
                         ))}
                       </select>
                     </label>
-                    {isTechnicalDivision && (
+                    {requiresTechnicalDocuments && (
                       <>
                         <label>
                           CV / PDF
                           <input
-                            name="technicalCv"
+                            name="curriculumVitae"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
@@ -348,7 +398,16 @@ export default function Recruitment() {
                         <label>
                           ESSAY / PDF
                           <input
-                            name="technicalEssay"
+                            name="essay"
+                            required
+                            type="file"
+                            accept="application/pdf,.pdf"
+                          />
+                        </label>
+                        <label className="full-field">
+                          PARENT PERMISSION LETTER / PDF
+                          <input
+                            name="parentPermissionLetter"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
@@ -357,21 +416,20 @@ export default function Recruitment() {
                         <label className="full-field">
                           PORTFOLIO / GOOGLE DRIVE LINK
                           <input
-                            name="technicalPortfolio"
+                            name="portfolioUrl"
                             required
                             type="url"
-                            pattern="https://(drive|docs)\\.google\\.com/.*"
                             placeholder="https://drive.google.com/..."
                           />
                         </label>
                       </>
                     )}
-                    {isNonTechnicalDivision && (
+                    {requiresNonTechnicalDocuments && (
                       <>
                         <label>
                           CURRICULUM VITAE / PDF
                           <input
-                            name="nonTechnicalCv"
+                            name="curriculumVitae"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
@@ -386,59 +444,32 @@ export default function Recruitment() {
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        {division === "Administration" && (
-                          <>
-                            <label>
-                              ADMINISTRATION SPECIAL TASK / XLSX
-                              <input
-                                name="administrationTaskXlsx"
-                                required
-                                type="file"
-                                accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                              />
-                            </label>
-                            <label>
-                              ADMINISTRATION SPECIAL TASK / PDF
-                              <input
-                                name="administrationTaskPdf"
-                                required
-                                type="file"
-                                accept="application/pdf,.pdf"
-                              />
-                            </label>
-                            <label className="full-field">
-                              GOOGLE SHEETS VIEWER LINK{" "}
-                              <input
-                                name="administrationSheetsLink"
-                                type="url"
-                                pattern="https://docs\\.google\\.com/spreadsheets/.*"
-                                placeholder="https://docs.google.com/spreadsheets/..."
-                              />
-                            </label>
-                          </>
-                        )}
-                        {division === "Branding" && (
-                          <>
-                            <label className="full-field">
-                              MOTION GRAPHIC VIDEO (OPTIONAL)
-                              <input type="file" accept="video/*" />
-                            </label>
-                            <label className="full-field">
-                              DESIGN GRAPHIC / A3 (OPTIONAL)
-                              <input
-                                name="brandingGraphic"
-                                type="file"
-                                accept="image/*,.pdf,application/pdf"
-                              />
-                            </label>
-                          </>
+                        <label className="full-field">
+                          PARENT PERMISSION LETTER / PDF
+                          <input
+                            name="parentPermissionLetter"
+                            required
+                            type="file"
+                            accept="application/pdf,.pdf"
+                          />
+                        </label>
+                        {(division === "Administration" || division === "Branding") && (
+                          <label className="full-field">
+                            SPECIAL TASK / GOOGLE DRIVE LINK
+                            <input
+                              name="specialTaskUrl"
+                              required
+                              type="url"
+                              placeholder="https://drive.google.com/..."
+                            />
+                          </label>
                         )}
                         <label className="full-field">
-                          PORTFOLIO / GOOGLE DRIVE LINK (OPTIONAL)
+                          PORTFOLIO / GOOGLE DRIVE LINK
                           <input
-                            name="nonTechnicalPortfolio"
+                            name="portfolioUrl"
+                            required
                             type="url"
-                            pattern="https://(drive|docs)\\.google\\.com/.*"
                             placeholder="https://drive.google.com/..."
                           />
                         </label>
@@ -456,12 +487,22 @@ export default function Recruitment() {
                   </div>
                 )}
                 <div className="recruitment-form-actions">
+                  {submissionError && <p role="alert" className="text-sm font-semibold text-red-400">{submissionError}</p>}
                   {applicationStep === 2 && <button className="form-back" type="button" onClick={() => {
                     saveApplicationDraft(1)
                     setApplicationStep(1)
-                  }}>↙ Back</button>}
-                  <button className="submit-application" type="submit">
-                    {applicationStep === 1 ? "Next step" : "Submit application"} <b>↗</b>
+                  }} disabled={isSubmitting}>↙ Back</button>}
+                  <button className="submit-application disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-[-0.125em]" aria-hidden="true" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        {applicationStep === 1 ? "Next step" : "Submit application"} <b>↗</b>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
