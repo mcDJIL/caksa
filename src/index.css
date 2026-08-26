@@ -72,6 +72,7 @@ footer { background:#0a1428; border-top:1px solid var(--line); display:grid; gap
 
 /* Tighter shared hero rhythm: content begins sooner and matches the uppercase Home display. */
 .page-hero-content { bottom:auto; top:clamp(155px,21vh,245px); }
+.page-hero-cta { border:0; cursor:pointer; margin-top:24px; }
 .page-hero h1 { text-transform:uppercase; }
 .page-hero-content>p { text-transform:none; }
 @media(max-width:560px){.page-hero-content{bottom:auto;top:145px}.page-hero h1{font-size:clamp(3.1rem,13vw,4.25rem);line-height:.8}}

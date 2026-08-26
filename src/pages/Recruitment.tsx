@@ -58,6 +58,13 @@ export default function Recruitment() {
 
   const [division, setDivision] = useState("")
 
+  const scrollToApplicationForm = () => {
+    setMode("APPLY")
+    requestAnimationFrame(() => {
+      document.getElementById("application-form")?.scrollIntoView({ behavior: "smooth", block: "start" })
+    })
+  }
+
   useEffect(() => {
     const draft = readRecruitmentDraft()
     if (Object.keys(draft).length === 0) return
@@ -174,6 +181,8 @@ export default function Recruitment() {
       }
       description="Open Recruitment is your entry point into the CAKSA formation. Find your discipline, submit your application, and follow your selection flight."
       image={images.hero}
+      actionLabel="START APPLICATION"
+      onActionClick={scrollToApplicationForm}
     >
       <section className="recruitment-hub section-dark">
         <div className="recruitment-intro">
@@ -211,7 +220,7 @@ export default function Recruitment() {
           </button>
         </div>
         {mode === "APPLY" ? (
-          <div className="application-panel">
+          <div id="application-form" className="application-panel">
             {submitted ? (
               <div className="application-success">
                 <span>APPLICATION RECEIVED</span>
@@ -511,24 +520,24 @@ export default function Recruitment() {
         ) : (
           <div className="tracking-panel">
             <div className="tracking-copy">
-              <span>APPLICANT TRACKER / NO LOGIN</span>
+              <span>APPLICANT TRACKER</span>
               <h3>
                 FOLLOW
                 <br />
                 YOUR <em>FLIGHT.</em>
               </h3>
               <p>
-                Enter your application code to preview your selection status.
+                Enter your NRP to preview your selection status.
               </p>
             </div>
             <div className="tracking-console">
               <form className="tracking-form" onSubmit={checkStatus}>
                 <label>
-                  APPLICATION CODE
+                  NRP
                   <input
                     value={trackingCode}
                     onChange={(event) => setTrackingCode(event.target.value)}
-                    placeholder="CAKSA-26-000"
+                    placeholder="3125600063"
                   />
                 </label>
                 <button type="submit">CHECK ↗</button>
@@ -689,7 +698,7 @@ export default function Recruitment() {
                       YOUR CODE.
                     </h4>
                     <p>
-                      Enter an application code to receive an immediate
+                      Enter an NRP to receive an immediate
                       selection signal.
                     </p>
                   </>
