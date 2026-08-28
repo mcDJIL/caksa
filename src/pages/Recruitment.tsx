@@ -46,7 +46,7 @@ export default function Recruitment() {
 
   const [submitted, setSubmitted] = useState(false)
 
-  const [applicationCode, setApplicationCode] = useState("")
+  const [nrp, setNrp] = useState("")
 
   const [submissionError, setSubmissionError] = useState("")
 
@@ -225,20 +225,20 @@ export default function Recruitment() {
               <div className="application-success">
                 <span>APPLICATION RECEIVED</span>
                 <h3>
-                  YOUR FLIGHT
+                  YOUR
                   <br />
-                  CODE IS
+                  NRP IS
                   <br />
-                  <em>{applicationCode}</em>
+                  <em>{nrp}</em>
                 </h3>
                 <p>
-                  Save this code to check your selection status later.
+                  Remember your NRP to check your selection status later.
                 </p>
                 <button
                   type="button"
                   onClick={() => {
                     setMode("TRACK")
-                    setTrackingCode(applicationCode)
+                    setTrackingCode(nrp)
                     setTrackingResult("PENDING")
                   }}
                 >
@@ -277,12 +277,12 @@ export default function Recruitment() {
                       method: "POST",
                       body: submissionFormData,
                     })
-                    const result = (await response.json()) as { applicationCode?: string; error?: string }
-                    if (!response.ok || !result.applicationCode) {
+                    const result = (await response.json()) as { nrp?: string; error?: string }
+                    if (!response.ok || !result.nrp) {
                       throw new Error(result.error || "Unable to submit application")
                     }
                     localStorage.removeItem(recruitmentDraftKey)
-                    setApplicationCode(result.applicationCode)
+                    setNrp(result.nrp)
                     setSubmitted(true)
                   } catch (error) {
                     setSubmissionError(error instanceof Error ? error.message : "Unable to submit application")
@@ -426,7 +426,6 @@ export default function Recruitment() {
                           PORTFOLIO / GOOGLE DRIVE LINK
                           <input
                             name="portfolioUrl"
-                            required
                             type="url"
                             placeholder="https://drive.google.com/..."
                           />
@@ -477,7 +476,6 @@ export default function Recruitment() {
                           PORTFOLIO / GOOGLE DRIVE LINK
                           <input
                             name="portfolioUrl"
-                            required
                             type="url"
                             placeholder="https://drive.google.com/..."
                           />
