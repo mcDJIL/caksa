@@ -122,19 +122,17 @@ export default function Recruitment() {
       null,
     )
 
-  const divisions =
-    interestedWing === "Technical"
-      ? ["Electrical", "Mechanical", "Programming", "Research & Development"]
-      : interestedWing === "Non-Technical"
-        ? [
-          "Administration",
-          "Branding",
-          "Public Relations",
-          "Project Management",
-        ]
-        : []
+  const technicalWings = ["Technical", "Research & Development"];
+  const nonTechnicalWings = ["Non-Technical"];
 
-  const requiresTechnicalDocuments = interestedWing === "Technical" && division !== ""
+  let divisions: string[] = [];
+  if (technicalWings.includes(interestedWing)) {
+    divisions = ["Electrical", "Mechanical", "Programming"];
+  } else if (nonTechnicalWings.includes(interestedWing)) {
+    divisions = ["Administration", "Branding", "Public Relations", "Project Management"];
+  }
+
+  const requiresTechnicalDocuments = (interestedWing === "Technical" || interestedWing === "Research & Development") && division !== ""
 
   const requiresNonTechnicalDocuments = interestedWing === "Non-Technical" && division !== ""
 
@@ -370,6 +368,7 @@ export default function Recruitment() {
                         </option>
                         <option>Technical</option>
                         <option>Non-Technical</option>
+                        <option>Research & Development</option>
                       </select>
                     </label>
                     <label>
