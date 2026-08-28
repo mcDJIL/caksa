@@ -121,6 +121,7 @@ export default function Recruitment() {
     useState<"PENDING" | "ADMINISTRATION" | "INTERVIEW" | "MEMBER" | "NOT SELECTED / ADMINISTRATION" | "NOT SELECTED / INTERVIEW" | "NOT FOUND" | null>(
       null,
     )
+  const [trackingApplicantName, setTrackingApplicantName] = useState("")
 
   const technicalWings = ["Technical", "Research & Development"];
   const nonTechnicalWings = ["Non-Technical"];
@@ -141,6 +142,7 @@ export default function Recruitment() {
 
     const normalized = trackingCode.trim().toUpperCase()
     if (!normalized) {
+      setTrackingApplicantName("")
       setTrackingResult("NOT FOUND")
       return
     }
@@ -148,11 +150,15 @@ export default function Recruitment() {
     try {
       const response = await fetch(`${recruitmentApiBase}/applications/${encodeURIComponent(normalized)}`)
       if (!response.ok) {
+        setTrackingApplicantName("")
         setTrackingResult("NOT FOUND")
         return
       }
 
-      const result = (await response.json()) as { status: string }
+      const result = (await response.json()) as { status: string; full_name?: string }
+      console.log(result);
+      
+      setTrackingApplicantName(result.full_name?.trim() ?? "")
       setTrackingResult(
         result.status === "NOT_SELECTED_ADMINISTRATION"
           ? "NOT SELECTED / ADMINISTRATION"
@@ -161,6 +167,7 @@ export default function Recruitment() {
             : result.status as "PENDING" | "ADMINISTRATION" | "INTERVIEW" | "MEMBER",
       )
     } catch {
+      setTrackingApplicantName("")
       setTrackingResult("NOT FOUND")
     }
   }
@@ -294,21 +301,21 @@ export default function Recruitment() {
                 </div>
                 {applicationStep === 1 ? (
                   <div className="form-grid">
-                    <label>
+                    <label className="font-bold">
                       EMAIL ADDRESS
-                      <input name="email" required type="email" placeholder="name@email.com" />
+                      <input className="font-light" name="email" required type="email" placeholder="name@email.com" />
                     </label>
-                    <label>
+                    <label className="font-bold">
                       FULL NAME
-                      <input name="fullName" required placeholder="Your full name" />
+                      <input className="font-light" name="fullName" required placeholder="Your full name" />
                     </label>
-                    <label>
+                    <label className="font-bold">
                       NRP
-                      <input name="nrp" required inputMode="numeric" placeholder="Your student number" />
+                      <input className="font-light" name="nrp" required inputMode="numeric" placeholder="Your student number" />
                     </label>
-                    <label>
+                    <label className="font-bold">
                       DEGREE LEVEL
-                      <select name="degreeLevel" required defaultValue="">
+                      <select className="font-light" name="degreeLevel" required defaultValue="">
                         <option value="" disabled>Select degree level</option>
                         <option>D3</option>
                         <option>D4</option>
@@ -316,31 +323,31 @@ export default function Recruitment() {
                         <option>S2</option>
                       </select>
                     </label>
-                    <label>
+                    <label className="font-bold">
                       STUDY PROGRAM
-                      <select name="studyProgram" required defaultValue="">
+                      <select className="font-light" name="studyProgram" required defaultValue="">
                         <option value="" disabled>Select study program</option>
                         {studyPrograms.map(([name, url]) => (
                           <option key={name} value={url}>{name}</option>
                         ))}
                       </select>
                     </label>
-                    <label>
+                    <label className="font-bold">
                       BATCH
-                      <select name="batch" required defaultValue="">
+                      <select className="font-light" name="batch" required defaultValue="">
                         <option value="" disabled>Select batch</option>
                         <option>2024</option>
                         <option>2025</option>
                         <option>2026</option>
                       </select>
                     </label>
-                    <label>
+                    <label className="font-bold">
                       INSTAGRAM
-                      <input name="instagram" required placeholder="@yourusername" />
+                      <input className="font-light" name="instagram" required placeholder="@yourusername" />
                     </label>
-                    <label>
+                    <label className="font-bold">
                       WHERE DID YOU KNOW ABOUT THIS OPEN RECRUITMENT?
-                      <select name="referralSource" required defaultValue="">
+                      <select className="font-light" name="referralSource" required defaultValue="">
                         <option value="" disabled>Select one</option>
                         <option>Instagram</option>
                         <option>Campus information</option>
@@ -352,9 +359,10 @@ export default function Recruitment() {
                   </div>
                 ) : (
                   <div className="form-grid">
-                    <label>
+                    <label className="font-bold">
                       INTERESTED WING
                       <select
+                        className="font-light"
                         name="interestedWing"
                         required
                         value={interestedWing}
@@ -371,9 +379,10 @@ export default function Recruitment() {
                         <option>Research & Development</option>
                       </select>
                     </label>
-                    <label>
+                    <label className="font-bold">
                       DIVISION OF INTEREST
                       <select
+                        className="font-light"
                         name="division"
                         required
                         value={division}
@@ -394,36 +403,40 @@ export default function Recruitment() {
                     </label>
                     {requiresTechnicalDocuments && (
                       <>
-                        <label>
+                        <label className="font-bold">
                           CV / PDF
                           <input
+                            className="font-light"
                             name="curriculumVitae"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        <label>
+                        <label className="font-bold">
                           ESSAY / PDF
                           <input
+                            className="font-light"
                             name="essay"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        <label className="full-field">
+                        <label className="full-field font-bold">
                           PARENT PERMISSION LETTER / PDF
                           <input
+                            className="font-light"
                             name="parentPermissionLetter"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        <label className="full-field">
+                        <label className="full-field font-bold">
                           PORTFOLIO / GOOGLE DRIVE LINK
                           <input
+                            className="font-light"
                             name="portfolioUrl"
                             type="url"
                             placeholder="https://drive.google.com/..."
@@ -433,27 +446,30 @@ export default function Recruitment() {
                     )}
                     {requiresNonTechnicalDocuments && (
                       <>
-                        <label>
+                        <label className="font-bold">
                           CURRICULUM VITAE / PDF
                           <input
+                            className="font-light"
                             name="curriculumVitae"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        <label>
+                        <label className="font-bold">
                           MOTIVATION LETTER / PDF
                           <input
+                            className="font-light"
                             name="motivationLetter"
                             required
                             type="file"
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        <label className="full-field">
+                        <label className="full-field font-bold">
                           PARENT PERMISSION LETTER / PDF
                           <input
+                            className="font-light"
                             name="parentPermissionLetter"
                             required
                             type="file"
@@ -461,9 +477,10 @@ export default function Recruitment() {
                           />
                         </label>
                         {(division === "Administration" || division === "Branding") && (
-                          <label className="full-field">
+                          <label className="full-field font-bold">
                             SPECIAL TASK / GOOGLE DRIVE LINK
                             <input
+                              className="font-light"
                               name="specialTaskUrl"
                               required
                               type="url"
@@ -471,9 +488,10 @@ export default function Recruitment() {
                             />
                           </label>
                         )}
-                        <label className="full-field">
+                        <label className="full-field font-bold">
                           PORTFOLIO / GOOGLE DRIVE LINK
                           <input
+                            className="font-light"
                             name="portfolioUrl"
                             type="url"
                             placeholder="https://drive.google.com/..."
@@ -481,9 +499,10 @@ export default function Recruitment() {
                         </label>
                       </>
                     )}
-                    <label className="full-field">
+                    <label className="full-field font-bold">
                       WHY CAKSA?
                       <textarea
+                        className="font-light"
                         name="whyCaksa"
                         required
                         rows={4}
@@ -563,6 +582,11 @@ export default function Recruitment() {
                         {trackingCode.trim().toUpperCase() || "CAKSA-26-000"}
                       </b>
                     </div>
+                    {trackingApplicantName && (
+                      <p className="status-applicant">
+                        <span>APPLICANT / </span>{trackingApplicantName}
+                      </p>
+                    )}
                     <div className="status-hero">
                       <span>
                         {trackingResult === "NOT SELECTED / ADMINISTRATION"
@@ -623,6 +647,11 @@ export default function Recruitment() {
                         {trackingCode.trim().toUpperCase() || "CAKSA-26-000"}
                       </b>
                     </div>
+                    {trackingApplicantName && (
+                      <p className="status-applicant">
+                        <span>APPLICANT / </span>{trackingApplicantName}
+                      </p>
+                    )}
                     <div className="status-hero">
                       <span>CURRENT STAGE</span>
                       <h4>
