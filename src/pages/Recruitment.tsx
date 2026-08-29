@@ -230,11 +230,11 @@ export default function Recruitment() {
               <div className="application-success">
                 <span>APPLICATION RECEIVED</span>
                 <h3>
-                  YOUR
+                  JOIN
                   <br />
-                  NRP IS
+                  OUR GROUP
                   <br />
-                  <em>{nrp}</em>
+                  <em><a href="https://chat.whatsapp.com/KNcAiaKtlzDHj1Pf394sM8?s=sw&p=a&mlu=4">CLICK</a></em>
                 </h3>
                 <p>
                   Remember your NRP to check your selection status later.
@@ -644,7 +644,7 @@ export default function Recruitment() {
                     <div className="status-board-top">
                       <span>LIVE APPLICATION STATUS</span>
                       <b>
-                        {trackingCode.trim().toUpperCase() || "CAKSA-26-000"}
+                        {trackingCode.trim().toUpperCase() || "3125600063"}
                       </b>
                     </div>
                     {trackingApplicantName && (
@@ -653,6 +653,7 @@ export default function Recruitment() {
                       </p>
                     )}
                     <div className="status-hero">
+                      <h3 className="font-bold">Group Whatsapp: <a href="https://chat.whatsapp.com/KNcAiaKtlzDHj1Pf394sM8?s=sw&p=a&mlu=4" className="text-orange-400">Click</a></h3>
                       <span>CURRENT STAGE</span>
                       <h4>
                         {trackingResult === "MEMBER"
