@@ -170,13 +170,13 @@ export const nontechnical: TeamMember[] = [
   {
     img: nesaImage,
     name: 'Neza Olivia Balqis',
-    position: 'Administration',
+    position: 'Internal',
     major: 'Power Plant Engineering',
   },
   {
     img: galangImage,
     name: 'Galang Seto Panuntun',
-    position: 'Administration',
+    position: 'Internal',
     major: 'Power Plant Engineering',
   },
   {

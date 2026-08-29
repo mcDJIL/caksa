@@ -21,14 +21,14 @@ export default function Home() {
       <div className="new-hero-image"><img src={images.hero} alt="UAV suspended in a mountainous sky" /></div>
       <div className="new-hero-grid" />
       <header className="hero-meta"><span>CAKSA / PENS</span><span>07°16′S — 112°47′E</span></header>
-      <div className="hero-title"><p>INTERNATIONAL UAV<br />RESEARCH TEAM</p><h1>WE<br /><i>MAKE</i><br />THE SKY<br />ANSWER.</h1></div>
+      <div className="hero-title"><p>INTERNATIONAL UAV<br />RESEARCH TEAM</p><h1 className="ml-0.5 [320px]:ml-0">WE<br /><i>MAKE</i><br />THE SKY<br />ANSWER.</h1></div>
       <div className="hero-bottom"><span>GALA AKASA<br />WIRYA SATYA</span><div className="hero-rule" /><span>SCROLL TO<br />THE HORIZON ↓</span></div>
       <div className="hero-stamp">EST.<br />2022</div>
       <div className="vertical-copy">POLITEKNIK ELEKTRONIKA NEGERI SURABAYA</div>
     </section>
     <section className="manifesto">
       <div className="manifesto-top"><span>[ 01 ] / MANIFESTO</span><span>07° 16′ 29.5″ S&nbsp; / &nbsp;112° 47′ 23.4″ E</span></div>
-      <div className="manifesto-copy"><p>WE DO NOT JUST<br />BUILD AIR<span>C</span>RAFT.</p><h2>WE PREPARE<br /><i>GENERATIONS</i><br />TO SURPASS THEM.</h2></div>
+      <div className="manifesto-copy mt-20 [500px]:mt-[19vh]"><p>WE DO NOT JUST<br />BUILD AIR<span>C</span>RAFT.</p><h2 className="">WE PREPARE<br /><i>GENERATIONS</i><br />TO SURPASS THEM.</h2></div>
       <div className="manifesto-foot"><span>2007—NOW</span><p>Rooted in Aeronautics PENS, CAKSA has grown through thousands of iterations, one runway, and a belief that Indonesian technology belongs in the world’s sky.</p><ArrowLink to="/about">Meet the formation</ArrowLink></div>
     </section>
     <section className="runway max-[639px]:!grid max-[639px]:!grid-cols-1 max-[639px]:!min-h-[770px]">
@@ -61,14 +61,12 @@ export default function Home() {
               <img className="sponsor-logo-image h-full w-full !object-contain p-[30px] !grayscale-0" src={sponsorImages.clev} alt="Clev Innovation Labs sponsor logo" />
             <div className="absolute inset-x-5 bottom-5 z-20 text-white">
               <span>FEATURED PARTNER</span>
-              <strong className="text-white">CLEV<br />INNOVATION LABS</strong>
             </div>
           </article>
           <article className="home-logo-feature">
             <img className="sponsor-logo-image h-full w-full !object-contain p-[30px] !grayscale-0" src={sponsorImages.djarum} alt="Djarum Foundation sponsor logo" />
             <div className="absolute inset-x-5 bottom-5 z-20 text-white">
               <span>FEATURED PARTNER</span>
-              <strong className="text-white">DJARUM<br />FOUNDATION</strong>
             </div>
           </article>
         </div>

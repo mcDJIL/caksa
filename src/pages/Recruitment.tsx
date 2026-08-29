@@ -130,7 +130,7 @@ export default function Recruitment() {
   if (technicalWings.includes(interestedWing)) {
     divisions = ["Electrical", "Mechanical", "Programming"];
   } else if (nonTechnicalWings.includes(interestedWing)) {
-    divisions = ["Administration", "Branding", "Public Relations", "Project Management"];
+    divisions = ["Internal", "Branding", "Public Relations", "Project Management"];
   }
 
   const requiresTechnicalDocuments = (interestedWing === "Technical" || interestedWing === "Research & Development") && division !== ""
@@ -476,7 +476,7 @@ export default function Recruitment() {
                             accept="application/pdf,.pdf"
                           />
                         </label>
-                        {(division === "Administration" || division === "Branding") && (
+                        {(division === "Internal" || division === "Branding") && (
                           <label className="full-field font-bold">
                             SPECIAL TASK / GOOGLE DRIVE LINK
                             <input
@@ -763,7 +763,7 @@ export default function Recruitment() {
               MISSION.
             </h3>
             <p>
-              Administration · Branding · Public Relations · Project Management
+              Internal · Branding · Public Relations · Project Management
             </p>
           </article>
         </div>
