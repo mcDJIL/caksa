@@ -385,8 +385,7 @@ export default function Recruitment() {
                   <>
                     <div className="form-resource">
                       <div>
-                        <span>DOCUMENT CHECK / BEFORE UPLOAD</span>
-                        <p>Need a reference for the required files? Open the sample folder before uploading.</p>
+                        <span className="text-sm font-medium tracking-normal">NOT SURE WHAT TO UPLOAD?</span>
                       </div>
                       <a href={sampleDocumentsUrl} target="_blank" rel="noreferrer">
                         SEE EXAMPLES <b>↗</b>
@@ -533,12 +532,6 @@ export default function Recruitment() {
                         </label>
                       </>
                     )}
-                    <div className="form-resource-inline">
-                      <span>NOT SURE WHAT TO UPLOAD?</span>
-                      <a href={sampleDocumentsUrl} target="_blank" rel="noreferrer">
-                        OPEN SAMPLE FILES <b>↗</b>
-                      </a>
-                    </div>
                     <label className="full-field font-bold">
                       WHY CAKSA?
                       <textarea
