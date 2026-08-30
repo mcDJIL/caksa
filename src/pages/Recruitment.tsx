@@ -427,7 +427,7 @@ export default function Recruitment() {
                         <option value="" disabled>
                           {interestedWing
                             ? "Select subdivision"
-                            : "Select a wing first"}
+                            : "Select a division first"}
                         </option>
                         {divisions.map((item) => (
                           <option key={item}>{item}</option>
