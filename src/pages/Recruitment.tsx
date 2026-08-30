@@ -25,6 +25,9 @@ const studyPrograms = [
 
 const recruitmentDraftKey = "caksa-recruitment-draft"
 const recruitmentApiBase = (import.meta.env.VITE_RECRUITMENT_API_URL || "http://localhost:3000/api").replace(/\/$/, "")
+
+const recruitmentGuidebookUrl = "https://drive.google.com/drive/folders/11LKF7_k3EBj9RqbS1Um4P5tck8ALnkpV?usp=sharing"
+const sampleDocumentsUrl = "https://drive.google.com/drive/folders/154BjdqqBInzGvhG-5UTzr2mkiPCKyzAE?usp=sharing"
 const stepOneFieldNames = ["email", "fullName", "nrp", "degreeLevel", "studyProgram", "batch", "instagram", "referralSource"] as const
 
 const readRecruitmentDraft = (): Record<string, string> => {
@@ -207,6 +210,26 @@ export default function Recruitment() {
             UI prototype.
           </p>
         </div>
+        <aside className="recruitment-guide" aria-labelledby="recruitment-guide-title">
+          <div className="recruitment-guide-index">PRE-FLIGHT CHECK / 00</div>
+          <div className="recruitment-guide-copy">
+            <span>START HERE</span>
+            <h3 id="recruitment-guide-title" className="text-[32px] sm:text-6xl">
+              READ THE
+              <br />
+              <em>GUIDEBOOK.</em>
+            </h3>
+            <p>Understand the selection flow and prepare the right documents before you start your application.</p>
+          </div>
+          <div className="recruitment-guide-actions">
+            <a href={recruitmentGuidebookUrl} target="_blank" rel="noreferrer">
+              OPEN GUIDEBOOK <b>↗</b>
+            </a>
+            <a href={sampleDocumentsUrl} target="_blank" rel="noreferrer">
+              VIEW SAMPLE FILES <b>↗</b>
+            </a>
+          </div>
+        </aside>
         <div className="recruitment-mode max-[380px]:!grid-cols-1">
           <button
             type="button"
@@ -359,9 +382,19 @@ export default function Recruitment() {
                     </label>
                   </div>
                 ) : (
-                  <div className="form-grid">
-                    <label className="font-bold">
-                      INTERESTED WING
+                  <>
+                    <div className="form-resource">
+                      <div>
+                        <span>DOCUMENT CHECK / BEFORE UPLOAD</span>
+                        <p>Need a reference for the required files? Open the sample folder before uploading.</p>
+                      </div>
+                      <a href={sampleDocumentsUrl} target="_blank" rel="noreferrer">
+                        SEE EXAMPLES <b>↗</b>
+                      </a>
+                    </div>
+                    <div className="form-grid">
+                      <label className="font-bold">
+                        INTERESTED DIVISION
                       <select
                         className="font-light"
                         name="interestedWing"
@@ -373,7 +406,7 @@ export default function Recruitment() {
                         }}
                       >
                         <option value="" disabled>
-                          Select a wing
+                          Select a Division
                         </option>
                         <option>Technical</option>
                         <option>Non-Technical</option>
@@ -381,7 +414,7 @@ export default function Recruitment() {
                       </select>
                     </label>
                     <label className="font-bold">
-                      DIVISION OF INTEREST
+                      SUBDIVISION OF INTEREST
                       <select
                         className="font-light"
                         name="division"
@@ -500,6 +533,12 @@ export default function Recruitment() {
                         </label>
                       </>
                     )}
+                    <div className="form-resource-inline">
+                      <span>NOT SURE WHAT TO UPLOAD?</span>
+                      <a href={sampleDocumentsUrl} target="_blank" rel="noreferrer">
+                        OPEN SAMPLE FILES <b>↗</b>
+                      </a>
+                    </div>
                     <label className="full-field font-bold">
                       WHY CAKSA?
                       <textarea
@@ -510,7 +549,8 @@ export default function Recruitment() {
                         placeholder="Tell us where you want to contribute..."
                       />
                     </label>
-                  </div>
+                    </div>
+                  </>
                 )}
                 <div className="recruitment-form-actions">
                   {submissionError && <p role="alert" className="text-sm font-semibold text-red-400">{submissionError}</p>}
