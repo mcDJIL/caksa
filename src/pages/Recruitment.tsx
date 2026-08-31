@@ -434,6 +434,21 @@ export default function Recruitment() {
                         ))}
                       </select>
                     </label>
+                    {(requiresTechnicalDocuments || requiresNonTechnicalDocuments) && (
+                      <div className={`document-guidance ${requiresTechnicalDocuments ? "document-guidance-essay" : "document-guidance-motivation"}`} role="note">
+                        <span>DOCUMENT CHECK / REQUIRED</span>
+                        <strong>
+                          {requiresTechnicalDocuments
+                            ? "Technical & Research and Development wajib upload Essay"
+                            : "Non-Technical wajib upload Motivation Letter"}
+                        </strong>
+                        <p>
+                          {requiresTechnicalDocuments
+                            ? "Jangan upload Motivation Letter pada field ini. Gunakan Essay dalam format PDF."
+                            : "Gunakan Motivation Letter dalam format PDF sesuai panduan pendaftaran."}
+                        </p>
+                      </div>
+                    )}
                     {requiresTechnicalDocuments && (
                       <>
                         <label className="font-bold">
@@ -447,7 +462,8 @@ export default function Recruitment() {
                           />
                         </label>
                         <label className="font-bold">
-                          ESSAY / PDF <span className="text-red-400">*</span>
+                          ESSAY / PDF <span className="text-red-400">* REQUIRED FOR TECHNICAL / R&amp;D</span>
+                          <small className="upload-hint">Upload Essay, bukan Motivation Letter.</small>
                           <input
                             className="font-light"
                             name="essay"
@@ -491,6 +507,7 @@ export default function Recruitment() {
                         </label>
                         <label className="font-bold">
                           MOTIVATION LETTER / PDF <span className="text-red-400">*</span>
+                          <small className="upload-hint">Khusus untuk divisi Non-Technical.</small>
                           <input
                             className="font-light"
                             name="motivationLetter"
@@ -531,6 +548,14 @@ export default function Recruitment() {
                           />
                         </label>
                       </>
+                    )}
+                    {(requiresTechnicalDocuments || requiresNonTechnicalDocuments) && (
+                      <label className="full-field document-confirmation">
+                        <input name="documentsConfirmed" required type="checkbox" />
+                        <span>
+                          Saya sudah memastikan dokumen yang saya upload sesuai dengan divisi yang dipilih.
+                        </span>
+                      </label>
                     )}
                     <label className="full-field font-bold">
                       WHY CAKSA? <span className="text-red-400">*</span>
