@@ -325,19 +325,19 @@ export default function Recruitment() {
                 {applicationStep === 1 ? (
                   <div className="form-grid">
                     <label className="font-bold">
-                      EMAIL ADDRESS
+                      EMAIL ADDRESS <span className="text-red-400">*</span>
                       <input className="font-light" name="email" required type="email" placeholder="name@email.com" />
                     </label>
                     <label className="font-bold">
-                      FULL NAME
+                      FULL NAME <span className="text-red-400">*</span>
                       <input className="font-light" name="fullName" required placeholder="Your full name" />
                     </label>
                     <label className="font-bold">
-                      NRP
+                      NRP <span className="text-red-400">*</span>
                       <input className="font-light" name="nrp" required inputMode="numeric" placeholder="Your student number" />
                     </label>
                     <label className="font-bold">
-                      DEGREE LEVEL
+                      DEGREE LEVEL <span className="text-red-400">*</span>
                       <select className="font-light" name="degreeLevel" required defaultValue="">
                         <option value="" disabled>Select degree level</option>
                         <option>D3</option>
@@ -347,7 +347,7 @@ export default function Recruitment() {
                       </select>
                     </label>
                     <label className="font-bold">
-                      STUDY PROGRAM
+                      STUDY PROGRAM <span className="text-red-400">*</span>
                       <select className="font-light" name="studyProgram" required defaultValue="">
                         <option value="" disabled>Select study program</option>
                         {studyPrograms.map(([name, url]) => (
@@ -356,7 +356,7 @@ export default function Recruitment() {
                       </select>
                     </label>
                     <label className="font-bold">
-                      BATCH
+                      BATCH <span className="text-red-400">*</span>
                       <select className="font-light" name="batch" required defaultValue="">
                         <option value="" disabled>Select batch</option>
                         <option>2024</option>
@@ -365,11 +365,11 @@ export default function Recruitment() {
                       </select>
                     </label>
                     <label className="font-bold">
-                      INSTAGRAM
+                      INSTAGRAM <span className="text-red-400">*</span>
                       <input className="font-light" name="instagram" required placeholder="@yourusername" />
                     </label>
                     <label className="font-bold">
-                      WHERE DID YOU KNOW ABOUT THIS OPEN RECRUITMENT?
+                      WHERE DID YOU KNOW ABOUT THIS OPEN RECRUITMENT? <span className="text-red-400">*</span>
                       <select className="font-light" name="referralSource" required defaultValue="">
                         <option value="" disabled>Select one</option>
                         <option>MBEX (Minat Bakat Expo)</option>
@@ -393,7 +393,7 @@ export default function Recruitment() {
                     </div>
                     <div className="form-grid">
                       <label className="font-bold">
-                        INTERESTED DIVISION
+                        INTERESTED DIVISION <span className="text-red-400">*</span>
                       <select
                         className="font-light"
                         name="interestedWing"
@@ -413,7 +413,7 @@ export default function Recruitment() {
                       </select>
                     </label>
                     <label className="font-bold">
-                      SUBDIVISION OF INTEREST
+                      SUBDIVISION OF INTEREST <span className="text-red-400">*</span>
                       <select
                         className="font-light"
                         name="division"
@@ -437,7 +437,7 @@ export default function Recruitment() {
                     {requiresTechnicalDocuments && (
                       <>
                         <label className="font-bold">
-                          CV / PDF
+                          CV / PDF <span className="text-red-400">*</span>
                           <input
                             className="font-light"
                             name="curriculumVitae"
@@ -447,7 +447,7 @@ export default function Recruitment() {
                           />
                         </label>
                         <label className="font-bold">
-                          ESSAY / PDF
+                          ESSAY / PDF <span className="text-red-400">*</span>
                           <input
                             className="font-light"
                             name="essay"
@@ -457,7 +457,7 @@ export default function Recruitment() {
                           />
                         </label>
                         <label className="full-field font-bold">
-                          PARENT PERMISSION LETTER / PDF
+                          PARENT PERMISSION LETTER / PDF <span className="text-red-400">*</span>
                           <input
                             className="font-light"
                             name="parentPermissionLetter"
@@ -480,7 +480,7 @@ export default function Recruitment() {
                     {requiresNonTechnicalDocuments && (
                       <>
                         <label className="font-bold">
-                          CURRICULUM VITAE / PDF
+                          CURRICULUM VITAE / PDF <span className="text-red-400">*</span>
                           <input
                             className="font-light"
                             name="curriculumVitae"
@@ -490,7 +490,7 @@ export default function Recruitment() {
                           />
                         </label>
                         <label className="font-bold">
-                          MOTIVATION LETTER / PDF
+                          MOTIVATION LETTER / PDF <span className="text-red-400">*</span>
                           <input
                             className="font-light"
                             name="motivationLetter"
@@ -500,7 +500,7 @@ export default function Recruitment() {
                           />
                         </label>
                         <label className="full-field font-bold">
-                          PARENT PERMISSION LETTER / PDF
+                          PARENT PERMISSION LETTER / PDF <span className="text-red-400">*</span>
                           <input
                             className="font-light"
                             name="parentPermissionLetter"
@@ -511,7 +511,7 @@ export default function Recruitment() {
                         </label>
                         {(division === "Internal" || division === "Branding") && (
                           <label className="full-field font-bold">
-                            SPECIAL TASK / GOOGLE DRIVE LINK
+                            SPECIAL TASK / GOOGLE DRIVE LINK <span className="text-red-400">*</span>
                             <input
                               className="font-light"
                               name="specialTaskUrl"
@@ -522,7 +522,7 @@ export default function Recruitment() {
                           </label>
                         )}
                         <label className="full-field font-bold">
-                          PORTFOLIO / GOOGLE DRIVE LINK
+                          PORTFOLIO / GOOGLE DRIVE LINK <span className="text-orange-400">(Opsional)</span>
                           <input
                             className="font-light"
                             name="portfolioUrl"
@@ -533,7 +533,7 @@ export default function Recruitment() {
                       </>
                     )}
                     <label className="full-field font-bold">
-                      WHY CAKSA?
+                      WHY CAKSA? <span className="text-red-400">*</span>
                       <textarea
                         className="font-light"
                         name="whyCaksa"
