@@ -467,7 +467,7 @@ export default function Recruitment() {
                           />
                         </label>
                         <label className="full-field font-bold">
-                          PORTFOLIO / GOOGLE DRIVE LINK
+                          PORTFOLIO / GOOGLE DRIVE LINK <span className="text-orange-400">(Opsional)</span>
                           <input
                             className="font-light"
                             name="portfolioUrl"
