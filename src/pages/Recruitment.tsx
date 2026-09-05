@@ -21,6 +21,7 @@ const studyPrograms = [
   ["Teknologi Game", "teknologi-game"],
   ["Teknologi Rekayasa Multimedia", "teknologi-rekayasa-multimedia"],
   ["Bisnis Digital", "bisnis-digital"],
+  ["Teknologi Multimedia dan Broadcasting", "teknologi-multimedia-dan-broadcasting"],
 ] as const;
 
 const recruitmentDraftKey = "caksa-recruitment-draft"
