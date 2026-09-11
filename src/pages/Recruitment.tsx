@@ -134,7 +134,7 @@ export default function Recruitment() {
   if (technicalWings.includes(interestedWing)) {
     divisions = ["Electrical", "Mechanical", "Programming"];
   } else if (nonTechnicalWings.includes(interestedWing)) {
-    divisions = ["Internal", "Branding", "Public Relations", "Project Management"];
+    divisions = ["Internal", "Branding", "Public Relations"];
   }
 
   const requiresTechnicalDocuments = (interestedWing === "Technical" || interestedWing === "Research & Development") && division !== ""
@@ -814,7 +814,7 @@ export default function Recruitment() {
               <br />
               AIRFRAME.
             </h3>
-            <p>Electrical · Programming · Mechanical · Project Management</p>
+            <p>Electrical · Programming · Mechanical</p>
           </article>
           <article>
             <span>02 / NON-TECHNICAL</span>
@@ -824,7 +824,7 @@ export default function Recruitment() {
               MISSION.
             </h3>
             <p>
-              Internal · Branding · Public Relations · Project Management
+              Internal · Branding · Public Relations
             </p>
           </article>
         </div>
