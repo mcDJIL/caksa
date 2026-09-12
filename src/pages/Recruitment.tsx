@@ -258,7 +258,7 @@ export default function Recruitment() {
                   <br />
                   FOR APPLY
                   <br />
-                  <a target="_blank" href="https://chat.whatsapp.com/KNcAiaKtlzDHj1Pf394sM8?s=sw&p=a&mlu=4"><button>JOIN GROUP WHATSAPP</button></a>
+                  <a target="_blank" href="https://chat.whatsapp.com/CkROCEvCDBuIFJ1TFBXzMK?s=cl&p=a&mlu=4&ilr=4"><button>JOIN GROUP WHATSAPP</button></a>
                 </h3>
                 <p>
                   Remember your NRP to check your selection status later.
@@ -713,7 +713,7 @@ export default function Recruitment() {
                       </p>
                     )}
                     <div className="status-hero">
-                      <h3 className="font-bold">Group Whatsapp: <a target="_blank" href="https://chat.whatsapp.com/KNcAiaKtlzDHj1Pf394sM8?s=sw&p=a&mlu=4" className="text-orange-400">Join</a></h3>
+                      <h3 className="font-bold">Group Whatsapp: <a target="_blank" href="https://chat.whatsapp.com/CkROCEvCDBuIFJ1TFBXzMK?s=cl&p=a&mlu=4&ilr=4" className="text-orange-400">Join</a></h3>
                       <span>CURRENT STAGE</span>
                       <h4>
                         {trackingResult === "MEMBER"
