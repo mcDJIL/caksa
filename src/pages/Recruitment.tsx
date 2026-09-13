@@ -29,6 +29,7 @@ const recruitmentApiBase = (import.meta.env.VITE_RECRUITMENT_API_URL || "http://
 
 const recruitmentGuidebookUrl = "https://drive.google.com/drive/folders/11LKF7_k3EBj9RqbS1Um4P5tck8ALnkpV?usp=sharing"
 const sampleDocumentsUrl = "https://drive.google.com/drive/folders/154BjdqqBInzGvhG-5UTzr2mkiPCKyzAE?usp=sharing"
+const isRecruitmentOpen = false
 const stepOneFieldNames = ["email", "fullName", "nrp", "degreeLevel", "studyProgram", "batch", "instagram", "referralSource"] as const
 
 const readRecruitmentDraft = (): Record<string, string> => {
@@ -250,7 +251,26 @@ export default function Recruitment() {
         </div>
         {mode === "APPLY" ? (
           <div id="application-form" className="application-panel">
-            {submitted ? (
+            {!isRecruitmentOpen ? (
+              <div className="application-success relative overflow-hidden py-20 sm:py-28">
+                <div className="absolute -right-16 -top-24 h-72 w-72 rounded-full border border-orange/40" aria-hidden="true" />
+                <div className="relative max-w-2xl">
+                  <span>RECRUITMENT STATUS / 2026</span>
+                  <h3>
+                    REGISTRATION
+                    <br />
+                    IS <em>CLOSED.</em>
+                  </h3>
+                  <p>
+                    Open Recruitment CAKSA 2026 telah ditutup. Terima kasih atas antusiasme dan minat untuk bergabung bersama kami.
+                  </p>
+                  <button type="button" onClick={() => setMode("TRACK")}>
+                    TRACK APPLICATION <b>↗</b>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              submitted ? (
               <div className="application-success">
                 <span>APPLICATION RECEIVED</span>
                 <h3>
@@ -591,6 +611,7 @@ export default function Recruitment() {
                   </button>
                 </div>
               </form>
+              )
             )}
           </div>
         ) : (
