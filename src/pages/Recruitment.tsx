@@ -29,7 +29,7 @@ const recruitmentApiBase = (import.meta.env.VITE_RECRUITMENT_API_URL || "http://
 
 const recruitmentGuidebookUrl = "https://drive.google.com/drive/folders/11LKF7_k3EBj9RqbS1Um4P5tck8ALnkpV?usp=sharing"
 const sampleDocumentsUrl = "https://drive.google.com/drive/folders/154BjdqqBInzGvhG-5UTzr2mkiPCKyzAE?usp=sharing"
-const isRecruitmentOpen = false
+const isRecruitmentOpen = true
 const stepOneFieldNames = ["email", "fullName", "nrp", "degreeLevel", "studyProgram", "batch", "instagram", "referralSource"] as const
 
 const readRecruitmentDraft = (): Record<string, string> => {
