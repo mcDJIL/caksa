@@ -3,6 +3,8 @@ import { useEffect, useRef, useState, type FormEvent } from "react"
 import PageHero from "../components/sections/PageHero"
 
 import { images } from "../data/images"
+import { findSkillTestByNrp } from "../data/skillTest"
+import { findInterviewByNrp } from "../data/interview"
 
 import { Eyebrow } from "../components/ui/editorial"
 
@@ -127,6 +129,10 @@ export default function Recruitment() {
       null,
     )
   const [trackingApplicantName, setTrackingApplicantName] = useState("")
+  const [trackingSchedule, setTrackingSchedule] = useState<{
+    skillTest: ReturnType<typeof findSkillTestByNrp>
+    interview: ReturnType<typeof findInterviewByNrp>
+  }>({ skillTest: undefined, interview: undefined })
 
   const technicalWings = ["Technical", "Research & Development"];
   const nonTechnicalWings = ["Non-Technical"];
@@ -148,6 +154,7 @@ export default function Recruitment() {
     const normalized = trackingCode.trim().toUpperCase()
     if (!normalized) {
       setTrackingApplicantName("")
+      setTrackingSchedule({ skillTest: undefined, interview: undefined })
       setTrackingResult("NOT FOUND")
       return
     }
@@ -156,6 +163,7 @@ export default function Recruitment() {
       const response = await fetch(`${recruitmentApiBase}/applications/${encodeURIComponent(normalized)}`)
       if (!response.ok) {
         setTrackingApplicantName("")
+        setTrackingSchedule({ skillTest: undefined, interview: undefined })
         setTrackingResult("NOT FOUND")
         return
       }
@@ -164,6 +172,10 @@ export default function Recruitment() {
       console.log(result);
       
       setTrackingApplicantName(result.full_name?.trim() ?? "")
+      setTrackingSchedule({
+        skillTest: findSkillTestByNrp(normalized),
+        interview: findInterviewByNrp(normalized),
+      })
       setTrackingResult(
         result.status === "NOT_SELECTED_ADMINISTRATION"
           ? "NOT SELECTED / ADMINISTRATION"
@@ -173,6 +185,7 @@ export default function Recruitment() {
       )
     } catch {
       setTrackingApplicantName("")
+      setTrackingSchedule({ skillTest: undefined, interview: undefined })
       setTrackingResult("NOT FOUND")
     }
   }
@@ -674,29 +687,14 @@ export default function Recruitment() {
                         <i />
                       </article>
                       <article
-                        className={
-                          trackingResult === "NOT SELECTED / INTERVIEW"
-                            ? "done"
-                            : "not-selected"
-                        }
+                        className={trackingResult === "NOT SELECTED / INTERVIEW" ? "done" : "not-selected"}
                       >
                         <b>02</b>
-                        <span>ADMIN</span>
-                        <i />
-                      </article>
-                      <article
-                        className={
-                          trackingResult === "NOT SELECTED / INTERVIEW"
-                            ? "not-selected"
-                            : ""
-                        }
-                      >
-                        <b>03</b>
                         <span>INTERVIEW</span>
                         <i />
                       </article>
                       <article>
-                        <b>04</b>
+                        <b>03</b>
                         <span>MEMBER</span>
                         <i />
                       </article>
@@ -718,25 +716,49 @@ export default function Recruitment() {
                     <div className="status-hero">
                       <h3 className="font-bold">Group Whatsapp: <a target="_blank" href="https://chat.whatsapp.com/CkROCEvCDBuIFJ1TFBXzMK?s=cl&p=a&mlu=4&ilr=4" className="text-orange-400">Join</a></h3>
                       <span>CURRENT STAGE</span>
-                      <h4>
+                      <h4 className="status-stage-title">
                         {trackingResult === "MEMBER"
                           ? "MEMBER"
                           : trackingResult === "INTERVIEW"
                             ? "INTERVIEW"
                             : trackingResult === "ADMINISTRATION"
-                              ? "ADMIN"
+                              ? (trackingSchedule.skillTest ? "SKILL TEST & INTERVIEW" : "INTERVIEW")
                               : "REVIEW"}
                       </h4>
-                      <p>
+                      <p className="status-stage-message">
                         {trackingResult === "MEMBER"
                           ? "WELCOME TO THE FORMATION."
                           : trackingResult === "INTERVIEW"
                             ? "YOU HAVE CLEARED THE ADMINISTRATION STAGE."
                             : trackingResult === "ADMINISTRATION"
-                              ? "YOUR APPLICATION IS UNDER ADMINISTRATION REVIEW."
+                              ? "YOU HAVE CLEARED ADMINISTRATION. YOUR NEXT SELECTION STAGE IS READY."
                               : "YOUR APPLICATION IS IN THE FLIGHT QUEUE."}
                       </p>
                     </div>
+                    {trackingResult === "ADMINISTRATION" && (trackingSchedule.skillTest || trackingSchedule.interview) && (
+                      <div className="status-schedule">
+                        <span>{trackingSchedule.skillTest ? "SKILL TEST & INTERVIEW" : "INTERVIEW"}</span>
+                        {trackingSchedule.skillTest && (
+                          <p>
+                            <b>SKILL TEST / {trackingSchedule.skillTest.wing.toUpperCase()}</b>
+                            <br />
+                            {trackingSchedule.skillTest.date} · {trackingSchedule.skillTest.startTime}–{trackingSchedule.skillTest.endTime}
+                            <br />
+                            ROOM / {trackingSchedule.skillTest.venue}
+                          </p>
+                        )}
+                        {trackingSchedule.interview && (
+                          <p>
+                            <b>INTERVIEW / {trackingSchedule.interview.wing.toUpperCase()}</b>
+                            <br />
+                            {trackingSchedule.interview.date} · {trackingSchedule.interview.startTime}–{trackingSchedule.interview.endTime} · {trackingSchedule.interview.code}
+                            <br />
+                            ROOM / {trackingSchedule.interview.venue}
+                          </p>
+                        )}
+                        <p className="status-arrival-note">PLEASE ARRIVE 30 MINUTES BEFORE YOUR SCHEDULED TIME.</p>
+                      </div>
+                    )}
                     <div className="status-flight">
                       <article className="done">
                         <b>01</b>
@@ -745,35 +767,19 @@ export default function Recruitment() {
                       </article>
                       <article
                         className={
-                          trackingResult === "ADMINISTRATION" ||
-                            trackingResult === "INTERVIEW" ||
-                            trackingResult === "MEMBER"
+                          trackingResult === "ADMINISTRATION" || trackingResult === "INTERVIEW" || trackingResult === "MEMBER"
                             ? "done"
                             : ""
                         }
                       >
                         <b>02</b>
-                        <span>ADMIN</span>
-                        <i />
-                      </article>
-                      <article
-                        className={
-                          trackingResult === "INTERVIEW" ||
-                            trackingResult === "MEMBER"
-                            ? "done"
-                            : ""
-                        }
-                      >
-                        <b>03</b>
                         <span>INTERVIEW</span>
                         <i />
                       </article>
                       <article
-                        className={
-                          trackingResult === "MEMBER" ? "done final" : ""
-                        }
+                        className={trackingResult === "MEMBER" ? "done final" : ""}
                       >
-                        <b>04</b>
+                        <b>03</b>
                         <span>MEMBER</span>
                         <i />
                       </article>
