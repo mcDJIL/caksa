@@ -591,25 +591,7 @@ export default function Recruitment() {
                     </div>
                   </>
                 )}
-                {/* <div className="recruitment-form-actions">
-                  {submissionError && <p role="alert" className="text-sm font-semibold text-red-400">{submissionError}</p>}
-                  {applicationStep === 2 && <button className="form-back" type="button" onClick={() => {
-                    saveApplicationDraft(1)
-                    setApplicationStep(1)
-                  }} disabled={isSubmitting}>↙ Back</button>}
-                  <button className="submit-application disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
-                    {isSubmitting ? (
-                      <>
-                        <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-[-0.125em]" aria-hidden="true" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        {applicationStep === 1 ? "Next step" : "Submit application"} <b>↗</b>
-                      </>
-                    )}
-                  </button>
-                </div> */}
+                
               </form>
               )
             )}
