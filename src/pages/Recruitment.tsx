@@ -716,7 +716,7 @@ export default function Recruitment() {
                     <div className="status-hero">
                       <h3 className="font-bold">Group Whatsapp: <a target="_blank" href="https://chat.whatsapp.com/CkROCEvCDBuIFJ1TFBXzMK?s=cl&p=a&mlu=4&ilr=4" className="text-orange-400">Join</a></h3>
                       <span>CURRENT STAGE</span>
-                      <h4 className="status-stage-title">
+                      <h4 className={`status-stage-title ${trackingResult === "ADMINISTRATION" && trackingSchedule.skillTest ? "status-stage-title-combined" : ""}`}>
                         {trackingResult === "MEMBER"
                           ? "MEMBER"
                           : trackingResult === "INTERVIEW"
