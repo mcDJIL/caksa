@@ -29,7 +29,7 @@ const recruitmentApiBase = (import.meta.env.VITE_RECRUITMENT_API_URL || "http://
 
 const recruitmentGuidebookUrl = "https://drive.google.com/drive/folders/11LKF7_k3EBj9RqbS1Um4P5tck8ALnkpV?usp=sharing"
 const sampleDocumentsUrl = "https://drive.google.com/drive/folders/154BjdqqBInzGvhG-5UTzr2mkiPCKyzAE?usp=sharing"
-const isRecruitmentOpen = true
+const isRecruitmentOpen = false
 const stepOneFieldNames = ["email", "fullName", "nrp", "degreeLevel", "studyProgram", "batch", "instagram", "referralSource"] as const
 
 const readRecruitmentDraft = (): Record<string, string> => {
@@ -591,7 +591,7 @@ export default function Recruitment() {
                     </div>
                   </>
                 )}
-                <div className="recruitment-form-actions">
+                {/* <div className="recruitment-form-actions">
                   {submissionError && <p role="alert" className="text-sm font-semibold text-red-400">{submissionError}</p>}
                   {applicationStep === 2 && <button className="form-back" type="button" onClick={() => {
                     saveApplicationDraft(1)
@@ -609,7 +609,7 @@ export default function Recruitment() {
                       </>
                     )}
                   </button>
-                </div>
+                </div> */}
               </form>
               )
             )}
