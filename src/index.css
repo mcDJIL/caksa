@@ -223,6 +223,8 @@ footer.new-footer .footer-data { display:grid; }
 .status-board.result-not-selected-interview .status-board-top b,
 .status-board.result-not-selected-administration .status-hero p,
 .status-board.result-not-selected-interview .status-hero p { color:#120f16; }
+.status-board.result-not-selected-administration .status-hero h4,
+.status-board.result-not-selected-interview .status-hero h4 { color:#fff!important; }
 .status-board.result-not-selected-administration:after,
 .status-board.result-not-selected-interview:after { border-color:#120f16; }
 .status-board.result-not-selected-administration .status-flight b,
