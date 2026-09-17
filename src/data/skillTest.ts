@@ -58,7 +58,7 @@ export const selectionSkillTest: SkillTestSchedule[] = [
       { name: "Dymas Ilham Saputra", nrp: "4225600033", status: "SCHEDULED" },
       { name: "Mochammad Abid Nurmansyah Alam", nrp: "4326600040", status: "SCHEDULED" },
       { name: "Mohammad Haidar Robbani", nrp: "4226600035", status: "SCHEDULED" },
-      { name: "Mohammad Zaimus Yadad", nrp: "4226600048", status: "SCHEDULED" },
+      { name: "Mohammad Zaimus Yadad", nrp: "4225600048", status: "SCHEDULED" },
       { name: "Muhammad Faqih Maulana Riadi", nrp: "4126650009", status: "SCHEDULED" },
       { name: "Muhammad Ilham Alwan", nrp: "4226600012", status: "SCHEDULED" },
       { name: "Muhammad Raiyan Bisyari", nrp: "4226600044", status: "SCHEDULED" },
