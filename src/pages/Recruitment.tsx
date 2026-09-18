@@ -5,6 +5,7 @@ import PageHero from "../components/sections/PageHero"
 import { images } from "../data/images"
 import { findSkillTestByNrp } from "../data/skillTest"
 import { findInterviewByNrp } from "../data/interview"
+import { findEepisatByNrp } from "../data/eepisat"
 
 import { Eyebrow } from "../components/ui/editorial"
 
@@ -31,7 +32,7 @@ const recruitmentApiBase = (import.meta.env.VITE_RECRUITMENT_API_URL || "http://
 
 const recruitmentGuidebookUrl = "https://drive.google.com/drive/folders/11LKF7_k3EBj9RqbS1Um4P5tck8ALnkpV?usp=sharing"
 const sampleDocumentsUrl = "https://drive.google.com/drive/folders/154BjdqqBInzGvhG-5UTzr2mkiPCKyzAE?usp=sharing"
-const isRecruitmentOpen = false
+const isRecruitmentOpen = true
 const stepOneFieldNames = ["email", "fullName", "nrp", "degreeLevel", "studyProgram", "batch", "instagram", "referralSource"] as const
 
 const readRecruitmentDraft = (): Record<string, string> => {
@@ -315,11 +316,27 @@ export default function Recruitment() {
                 onSubmit={async (event) => {
                   event.preventDefault()
                   if (applicationStep === 1) {
+                    const firstStepData = new FormData(event.currentTarget)
+                    const submittedNrp = String(firstStepData.get("nrp") ?? "").trim()
+                    const eligibleNrp = findEepisatByNrp(Number(submittedNrp))
+
+                    if (!eligibleNrp) {
+                      setSubmissionError("NRP ini bukan termasuk pendaftar EEPISAT. Hanya NRP yang terdaftar yang dapat melanjutkan pendaftaran.")
+                      return
+                    }
+
+                    setSubmissionError("")
                     saveApplicationDraft(2)
                     setApplicationStep(2)
                     return
                   }
                   setSubmissionError("")
+                  const draftNrp = readRecruitmentDraft().nrp
+                  if (!draftNrp || !findEepisatByNrp(Number(draftNrp.trim()))) {
+                    setSubmissionError("NRP ini bukan termasuk pendaftar EEPISAT. Hanya NRP yang terdaftar yang dapat mengirim pendaftaran.")
+                    setApplicationStep(1)
+                    return
+                  }
                   setIsSubmitting(true)
                   try {
                     const submissionFormData = new FormData(event.currentTarget)
@@ -356,6 +373,13 @@ export default function Recruitment() {
                 <div className="form-header">
                   <span>APPLICATION FORM / STEP 0{applicationStep} OF 02</span>
                 </div>
+                {submissionError && (
+                  <div className="document-guidance" role="alert">
+                    <span>REGISTRATION ACCESS / RESTRICTED</span>
+                    <strong>{submissionError}</strong>
+                    <p>Periksa kembali NRP Anda. Jika merasa seharusnya terdaftar, silakan hubungi panitia CAKSA.</p>
+                  </div>
+                )}
                 {applicationStep === 1 ? (
                   <div className="form-grid">
                     <label className="font-bold">
@@ -604,7 +628,25 @@ export default function Recruitment() {
                     </div>
                   </>
                 )}
-                
+                <div className="recruitment-form-actions">
+                  {submissionError && <p role="alert" className="text-sm font-semibold text-red-400">{submissionError}</p>}
+                  {applicationStep === 2 && <button className="form-back" type="button" onClick={() => {
+                    saveApplicationDraft(1)
+                    setApplicationStep(1)
+                  }} disabled={isSubmitting}>↙ Back</button>}
+                  <button className="submit-application disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isSubmitting} aria-busy={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent align-[-0.125em]" aria-hidden="true" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        {applicationStep === 1 ? "Next step" : "Submit application"} <b>↗</b>
+                      </>
+                    )}
+                  </button>
+                </div>
               </form>
               )
             )}
