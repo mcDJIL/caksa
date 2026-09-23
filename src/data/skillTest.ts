@@ -40,7 +40,7 @@ export const selectionSkillTest: SkillTestSchedule[] = [
     candidates: [
       { name: "Duta Narendra Adjie", nrp: "4125600094", status: "SCHEDULED" },
       { name: "Moh. Haidar Robbani", nrp: "4226600035", status: "SCHEDULED" },
-      { name: "Hamyail Hanggar Nurulloh", nrp: "2225500009", status: "SCHEDULED" },
+      { name: "Hamyail Hanggar Nurulloh", nrp: "4126600130", status: "SCHEDULED" },
     ],
   },
   {
