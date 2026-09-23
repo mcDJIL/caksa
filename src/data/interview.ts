@@ -27,6 +27,7 @@ const interviewVenueByDate: Record<string, string> = {
   "2026-09-23": "JJ. 210 Control Mechatronics Lab, 2nd Floor, D3 Building",
   "2026-09-24": "JJ. 210 Control Mechatronics Lab, 2nd Floor, D3 Building",
   "2026-09-26": "D. 303 Otomation Factory Lab, 3rd Floor, D4 Building",
+  "2026-09-27": "D. 303 Otomation Factory Lab, 3rd Floor, D4 Building",
 };
 
 const schedule = (
@@ -96,26 +97,22 @@ export const selectionInterview: InterviewSchedule[] = [
   schedule("2026-09-22", "20:50", "21:20", "P13", "Technical", "Program", "Trio Setiawan", "3325600045"),
 
   schedule("2026-09-23", "18:20", "18:50", "E1", "Technical", "Electrical", "Abdurrahman Syauqi", "4126600082"),
-  schedule("2026-09-23", "18:50", "19:20", "E2", "Technical", "Electrical", "Anwarus Shidqi", "2225500009"),
   schedule("2026-09-23", "19:20", "19:50", "E3", "Technical", "Electrical", "Djenar Virgiant Sayyid Nashrullah", "2125600141"),
   schedule("2026-09-23", "19:50", "20:20", "E4", "Technical", "Electrical", "Gabriela Accenthiz Pristine", "4126600038"),
   schedule("2026-09-23", "20:20", "20:50", "E5", "Technical", "Electrical", "M Athar Pranadityo Suwono", "4126600049"),
   schedule("2026-09-23", "20:50", "21:20", "E6", "Technical", "Electrical", "Mochamad Abi Raditya Gurtika", "2125500058"),
 
   schedule("2026-09-24", "18:20", "18:50", "E7", "Technical", "Electrical", "Muhammad Miftahul Fa'izin", "4126600091"),
-  schedule("2026-09-24", "18:50", "19:20", "E8", "Technical", "Electrical", "Rizki Nanda Saputra", "2225600057"),
-  schedule("2026-09-24", "19:20", "19:50", "E9", "Technical", "Electrical", "Ryan Saputra", "4126600093"),
-  schedule("2026-09-24", "19:50", "20:20", "E10", "Technical", "Electrical", "Septian Wahyu Ramadhan", "2426600084"),
-  schedule("2026-09-24", "20:20", "20:50", "E11", "Technical", "Electrical", "Shafa Salsabila", "2226600060"),
-  schedule("2026-09-24", "20:50", "21:20", "E12", "Technical", "Electrical", "Taufiqur Rahman", "2125500042"),
-
+  schedule("2026-09-24", "18:50", "19:20", "E8", "Technical", "Electrical", "Septian Wahyu Ramadhan", "2426600084"),
+  schedule("2026-09-24", "19:20", "19:50", "E9", "Technical", "Electrical", "Shafa Salsabila", "2226600060"),
+  schedule("2026-09-24", "19:50", "20:20", "E10", "Technical", "Electrical", "Taufiqur Rahman", "2125500042"),
+  
   schedule("2026-09-26", "08:00", "08:30", "M1", "Technical", "Mechanical", "Bima Adifta Tastaftian", "4126600037"),
   schedule("2026-09-26", "08:30", "09:00", "M2", "Technical", "Mechanical", "Duta Narendra Adjie", "4125600094"),
   schedule("2026-09-26", "09:00", "09:30", "M3", "Technical", "Mechanical", "Angger Akbar wicaksono", "4125600095"),
-  schedule("2026-09-26", "09:30", "10:00", "M4", "Technical", "Mechanical", "Arara Trilaksa Sentosa Putra", "4126600123"),
+  schedule("2026-09-26", "09:30", "10:00", "M4", "Technical", "Mechanical", "Hamyail Hanggar Nurulloh", "4126600123"),
   schedule("2026-09-26", "10:00", "10:30", "M5", "Technical", "Mechanical", "Aditiya Sanjaya", "4225600119"),
   schedule("2026-09-26", "10:30", "11:00", "M6", "Technical", "Mechanical", "Alfandy Firmansyah Putra", "4225600018"),
-  schedule("2026-09-26", "11:00", "11:30", "M7", "Technical", "Mechanical", "Anatasya Hurin Fakhira", "4126600136"),
   schedule("2026-09-26", "12:30", "13:00", "M8", "Technical", "Mechanical", "Hirzy Azzimran Achmad", "4326600035"),
   schedule("2026-09-26", "13:00", "13:30", "M9", "Technical", "Mechanical", "Irwansyah La Tahzan Ramadhani", "2225600033"),
   schedule("2026-09-26", "13:30", "14:00", "M10", "Technical", "Mechanical", "Izyan Akbar Hartadi", "4126650001"),
@@ -129,6 +126,15 @@ export const selectionInterview: InterviewSchedule[] = [
   schedule("2026-09-26", "19:00", "19:30", "M18", "Technical", "Mechanical", "Naufal Dwi Ananda", "4225600095"),
   schedule("2026-09-26", "19:30", "20:00", "M19", "Technical", "Mechanical", "Silangga Restu Adiel", "4225600080"),
   schedule("2026-09-26", "20:00", "20:30", "M20", "Technical", "Mechanical", "Mohammad Haidar Robbani", "4226600035"),
+
+  schedule("2026-09-27", "08:00", "08:30", "R1", "Technical", "Electrical", "Anwarus Shidqi", "2225500009"),
+  schedule("2026-09-27", "08:30", "09:00", "R2", "Technical", "Electrical", "Rizki Nanda Saputra", "2225600057"),
+  schedule("2026-09-27", "09:00", "09:30", "R3", "Technical", "Electrical", "Ryan Saputra", "4126600093"),
+  schedule("2026-09-27", "09:30", "10:00", "EP1", "Technical", "Electrical", "M. Rif'an Ahya Khoiro Adib", "2126600069"),
+  schedule("2026-09-27", "10:00", "10:30", "EP2", "Technical", "Electrical", "Athaya Satya Fachrudin", "3226600062"),
+  schedule("2026-09-27", "10:30", "11:00", "EP3", "Technical", "Electrical", "M. Irfan Nazril Rifa'ie", "2425600016"),
+  schedule("2026-09-27", "11:00", "11:30", "EP4", "Technical", "Program", "Galang Cipta Ramadhan", "3226600142"),
+  
 ];
 
 export const findInterviewByNrp = (nrp: string) =>
