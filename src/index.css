@@ -207,32 +207,4 @@ footer.new-footer .footer-data { display:grid; }
 @media(max-width:900px){.tracking-panel{grid-template-columns:1fr}.tracking-console{max-width:700px}}
 @media(max-width:560px){.tracking-console{gap:12px}.tracking-form{padding:14px}.status-board{min-height:280px;padding:19px}.status-hero{margin:33px 0 28px}.status-hero h4{font-size:4.1rem}.status-board>h4{font-size:3rem}.status-flight b{height:19px;width:19px}.status-flight article i{left:22px;top:9px}}
 /* Distinct outcome treatment for unsuccessful administration/interview decisions. */
-.status-board.result-not-selected-administration,.status-board.result-not-selected-interview { background:#261c28; border-color:#db6e78; }.status-board.result-not-selected-administration .status-board-top span,.status-board.result-not-selected-interview .status-board-top span,.status-board.result-not-selected-administration .status-hero>span,.status-board.result-not-selected-interview .status-hero>span { color:#ff9fa8; }.status-board.result-not-selected-administration:after,.status-board.result-not-selected-interview:after { border-color:#db6e78; }.status-flight .not-selected b { background:#db6e78; color:#261c28; }.status-flight .not-selected span { color:#ffb1b9; }.status-flight .not-selected i { background:#db6e78; }
-/* Red decision state for unsuccessful applications. */
-.status-board.result-not-selected-administration,
-.status-board.result-not-selected-interview { background:#d93646; border-color:#d93646; color:#120f16; }
-.status-board.result-not-selected-administration .status-applicant,
-.status-board.result-not-selected-interview .status-applicant,
-.status-board.result-not-selected-administration .status-applicant span,
-.status-board.result-not-selected-interview .status-applicant span,
-.status-board.result-not-selected-administration .status-board-top span,
-.status-board.result-not-selected-interview .status-board-top span,
-.status-board.result-not-selected-administration .status-hero>span,
-.status-board.result-not-selected-interview .status-hero>span,
-.status-board.result-not-selected-administration .status-board-top b,
-.status-board.result-not-selected-interview .status-board-top b,
-.status-board.result-not-selected-administration .status-hero p,
-.status-board.result-not-selected-interview .status-hero p { color:#120f16; }
-.status-board.result-not-selected-administration .status-hero h4,
-.status-board.result-not-selected-interview .status-hero h4 { color:#fff!important; }
-.status-board.result-not-selected-administration:after,
-.status-board.result-not-selected-interview:after { border-color:#120f16; }
-.status-board.result-not-selected-administration .status-flight b,
-.status-board.result-not-selected-interview .status-flight b { background:rgba(18,15,22,.3); color:#120f16; }
-.status-board.result-not-selected-administration .status-flight span,
-.status-board.result-not-selected-interview .status-flight span { color:#120f16; }
-.status-board.result-not-selected-administration .status-flight .not-selected b,
-.status-board.result-not-selected-interview .status-flight .not-selected b { background:#120f16; color:#d93646; }
-.status-board.result-not-selected-administration .status-flight .not-selected i,
-.status-board.result-not-selected-interview .status-flight .not-selected i { background:#120f16; }
 }
