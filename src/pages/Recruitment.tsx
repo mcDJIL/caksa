@@ -732,7 +732,7 @@ export default function Recruitment() {
                       </b>
                     </div>
                     {trackingApplicantName && (
-                      <p className="status-applicant">
+                      <p className="status-applicant text-white">
                         <span className="text-white">APPLICANT / </span>{trackingApplicantName}
                       </p>
                     )}
@@ -783,7 +783,7 @@ export default function Recruitment() {
                     )}
                     <div className="status-flight text-white">
                       <article className="done text-white border-white">
-                        <b className="text-white bg-white">01</b>
+                        <b className="bg-white">01</b>
                         <span className="text-white">APPLY</span>
                         <i className="bg-white" />
                       </article>
@@ -794,14 +794,14 @@ export default function Recruitment() {
                             : ""
                         }
                       >
-                        <b className="text-white bg-white">02</b>
+                        <b className="bg-white">02</b>
                         <span className="text-white">INTERVIEW</span>
                         <i className="bg-white" />
                       </article>
                       <article
                         className={trackingResult === "MEMBER" ? "done final text-white border-white" : ""}
                       >
-                        <b className="text-white bg-white">03</b>
+                        <b className="bg-white">03</b>
                         <span className="text-white">MEMBER</span>
                         <i className="bg-white" />
                       </article>
