@@ -726,20 +726,19 @@ export default function Recruitment() {
                 ) : trackingResult ? (
                   <>
                     <div className="status-board-top">
-                      <span>LIVE APPLICATION STATUS</span>
-                      <b>
+                      <span className="text-white">LIVE APPLICATION STATUS</span>
+                      <b className="text-white">
                         {trackingCode.trim().toUpperCase() || "3125600063"}
                       </b>
                     </div>
                     {trackingApplicantName && (
                       <p className="status-applicant">
-                        <span>APPLICANT / </span>{trackingApplicantName}
+                        <span className="text-white">APPLICANT / </span>{trackingApplicantName}
                       </p>
                     )}
                     <div className="status-hero">
-                      <h3 className="font-bold">Group Whatsapp: <a target="_blank" href="https://chat.whatsapp.com/CkROCEvCDBuIFJ1TFBXzMK?s=cl&p=a&mlu=4&ilr=4" className="text-orange-400">Join</a></h3>
-                      <span>CURRENT STAGE</span>
-                      <h4 className={`status-stage-title ${trackingResult === "ADMINISTRATION" && trackingSchedule.skillTest ? "status-stage-title-combined" : ""}`}>
+                      <span className="text-white">CURRENT STAGE</span>
+                      <h4 className={`text-white status-stage-title ${trackingResult === "ADMINISTRATION" && trackingSchedule.skillTest ? "status-stage-title-combined" : ""}`}>
                         {trackingResult === "MEMBER"
                           ? "MEMBER"
                           : trackingResult === "INTERVIEW"
@@ -748,7 +747,7 @@ export default function Recruitment() {
                               ? (trackingSchedule.skillTest ? "SKILL TEST & INTERVIEW" : "INTERVIEW")
                               : "REVIEW"}
                       </h4>
-                      <p className="status-stage-message">
+                      <p className="status-stage-message text-white">
                         {trackingResult === "MEMBER"
                           ? "WELCOME TO THE FORMATION."
                           : trackingResult === "INTERVIEW"
@@ -782,29 +781,29 @@ export default function Recruitment() {
                         <p className="status-arrival-note">PLEASE ARRIVE 30 MINUTES BEFORE YOUR SCHEDULED TIME.</p>
                       </div>
                     )}
-                    <div className="status-flight">
-                      <article className="done">
-                        <b>01</b>
-                        <span>APPLY</span>
-                        <i />
+                    <div className="status-flight text-white">
+                      <article className="done text-white border-white">
+                        <b className="text-white bg-white">01</b>
+                        <span className="text-white">APPLY</span>
+                        <i className="bg-white" />
                       </article>
                       <article
                         className={
                           trackingResult === "ADMINISTRATION" || trackingResult === "INTERVIEW" || trackingResult === "MEMBER"
-                            ? "done"
+                            ? "done text-white border-white"
                             : ""
                         }
                       >
-                        <b>02</b>
-                        <span>INTERVIEW</span>
-                        <i />
+                        <b className="text-white bg-white">02</b>
+                        <span className="text-white">INTERVIEW</span>
+                        <i className="bg-white" />
                       </article>
                       <article
-                        className={trackingResult === "MEMBER" ? "done final" : ""}
+                        className={trackingResult === "MEMBER" ? "done final text-white border-white" : ""}
                       >
-                        <b>03</b>
-                        <span>MEMBER</span>
-                        <i />
+                        <b className="text-white bg-white">03</b>
+                        <span className="text-white">MEMBER</span>
+                        <i className="bg-white" />
                       </article>
                     </div>
                   </>
